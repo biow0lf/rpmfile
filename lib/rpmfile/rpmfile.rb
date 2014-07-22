@@ -24,18 +24,50 @@ module RPM
       content
     end
 
+    # Public: Return package name from rpm file
+    #
+    # Examples:
+    #
+    #   name()
+    #   # => "repocop-unittest-vendor-tag"
+    #
+    # Returns package name from rpm file
     def name
       read_tag('NAME')
     end
 
+    # Public: Return package version from rpm file
+    #
+    # Examples:
+    #
+    #   version()
+    #   # => "0.5"
+    #
+    # Returns package version from rpm file
     def version
       read_tag('VERSION')
     end
 
+    # Public: Return package release from rpm file
+    #
+    # Examples:
+    #
+    #   release()
+    #   # => "alt1"
+    #
+    # Returns package release from rpm file
     def release
       read_tag('RELEASE')
     end
 
+    # Public: Return package epoch from rpm file
+    #
+    # Examples:
+    #
+    #   epoch()
+    #   # => nil
+    #
+    # Returns package epoch from rpm file
     def epoch
       read_tag('EPOCH')
     end
