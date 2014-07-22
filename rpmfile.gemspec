@@ -5,7 +5,7 @@ require 'rpmfile/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'rpmfile'
-  spec.version       = Rpmfile::VERSION
+  spec.version       = RPM::File::VERSION
   spec.authors       = ['Igor Zubkov']
   spec.email         = ['igor.zubkov@gmail.com']
   spec.summary       = %q{TODO: Write a short summary. Required.}
