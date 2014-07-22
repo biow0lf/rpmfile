@@ -99,11 +99,17 @@ module RPM
       read_tag('CHANGELOGTEXT')
     end
 
-    # srpm.size = File.size(file)
-    # srpm.md5 = `/usr/bin/md5sum #{file}`.split[0]
+    def md5
+      Digest::MD5.file(file).hexdigest
+    end
 
-    # email = srpm.changelogname.chop.split('<')[1].split('>')[0] rescue nil
+    def file_size
+      ::File.size(file)
+    end
 
+    # def size
+    #   read_tag('SIZE')
+    # end
   end
 end
 
