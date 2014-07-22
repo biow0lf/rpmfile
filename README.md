@@ -1,5 +1,7 @@
 # Rpmfile
 
+[![Inline docs](http://inch-ci.org/github/biow0lf/rpmfile.png?branch=master)](http://inch-ci.org/github/biow0lf/rpmfile)
+
 TODO: Write a gem description
 
 ## Installation
