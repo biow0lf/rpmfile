@@ -44,9 +44,9 @@ module RPM
       read_tag('SERIAL')
     end
 
-    # if str == "" then: str = nil
-
-    # srpm.filename = "#{srpm.name}-#{srpm.version}-#{srpm.release}.src.rpm"
+    def filename
+      "#{ self.name }-#{ self.version }-#{ self.release }.src.rpm"
+    end
 
     def group
       read_tag('GROUP')
@@ -87,16 +87,21 @@ module RPM
       Time.at(read_tag('BUILDTIME').to_i)
     end
 
+    def changelogtime
+      Time.at(read_tag('CHANGELOGTIME').to_i)
+    end
+
+    def changelogname
+      read_tag('CHANGELOGNAME')
+    end
+
+    def changelogtext
+      read_tag('CHANGELOGTEXT')
+    end
+
     # srpm.size = File.size(file)
     # srpm.md5 = `/usr/bin/md5sum #{file}`.split[0]
 
-    # srpm.changelogtime = Time.at(`export LANG=C && rpm -qp --queryformat='%{CHANGELOGTIME}' #{file}`.to_i)
-    #
-    # changelogname = `export LANG=C && rpm -qp --queryformat='%{CHANGELOGNAME}' #{file}`
-    # srpm.changelogname = changelogname
-    #
-    # srpm.changelogtext = `export LANG=C && rpm -qp --queryformat='%{CHANGELOGTEXT}' #{file}`
-    #
     # email = srpm.changelogname.chop.split('<')[1].split('>')[0] rescue nil
 
   end
@@ -163,9 +168,6 @@ end
 # TRIGGERFLAGS
 # TRIGGERINDEX
 # VERIFYSCRIPT
-# CHANGELOGTIME
-# CHANGELOGNAME
-# CHANGELOGTEXT
 # PREINPROG
 # POSTINPROG
 # PREUNPROG
