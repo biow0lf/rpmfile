@@ -39,9 +39,24 @@ module RPM
       content
     end
 
-    # def read_array(queryformat)
-    #
-    # end
+    def read_array(queryformat)
+      process = ChildProcess.build('rpm', '-qp', "--queryformat=#{ queryformat }", file)
+      process.environment['LANG'] = 'C'
+      process.io.stdout = Tempfile.new('child-output')
+      process.start
+      process.wait
+      process.io.stdout.rewind
+      content = process.io.stdout.read
+      process.io.stdout.close
+      process.io.stdout.unlink
+      content = nil if content == '(none)'
+      content = nil if content == ''
+      output = []
+      content.split("\n").each do |line|
+        output << line.split(' ')
+      end
+      output
+    end
 
     # Public: Return package name from rpm file.
     #
@@ -272,10 +287,39 @@ module RPM
       ::File.size(file)
     end
 
-    # def fileflags_with_filenames
-    #   queryformat = '[%{FILEFLAGS} %{FILENAMES}\n]'
-    #   read_array(queryformat)
-    # end
+    def fileflags_with_filenames
+      queryformat = '[%{FILEFLAGS} %{FILENAMES}\n]'
+      read_array(queryformat)
+    end
+
+    def spec_filename
+      fileflags_with_filenames.reject! {|line| line[0] == '0'}[0][1]
+    end
+
+    def extract_specfile
+      extract_file(spec_filename)
+    end
+
+    def extract_file(filename)
+      cpio           = ChildProcess.build('cpio', '-i', '--quiet', '--to-stdout', filename)
+      cpio.duplex    = true # sets up pipe so cpio.io.stdin will be available after .start
+      cpio.io.stdout = Tempfile.new('extracted_file')
+      cpio.start
+
+      rpm2cpio           = ChildProcess.build('rpm2cpio', file)
+      rpm2cpio.io.stdout = cpio.io.stdin
+      rpm2cpio.start
+      rpm2cpio.wait
+
+      cpio.io.stdin.close
+      cpio.wait
+      cpio.io.stdout.rewind
+      content = cpio.io.stdout.read
+      cpio.io.stdout.close
+      cpio.io.stdout.unlink
+      content.force_encoding('binary')
+      content
+    end
 
     # def specfile
       # def self.import(branch, file, srpm)
