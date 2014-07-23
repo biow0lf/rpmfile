@@ -3,10 +3,11 @@ require 'tempfile'
 
 module RPM
   class File
-    attr_reader :file
+    attr_reader :file, :source
 
-    def initialize(file)
+    def initialize(file, source = false)
       @file = file
+      @source = source
     end
 
     # Internal: Read tag via rpm binary.
@@ -111,7 +112,8 @@ module RPM
       read_tag('EPOCH')
     end
 
-    # Public: Return package serial from rpm file.
+    # Public: Return package serial from rpm file. Fresh fedora 20+
+    #   (maybe older) rpm dont know about 'SERIAL'.
     #
     # Examples
     #
@@ -128,41 +130,112 @@ module RPM
     # Examples
     #
     #   filename()
-    #   # => "repocop-unittest-vendor-tag-0.5-alt1.src.rpm"
+    #   # => "glibc-2.18-13.fc20.src.rpm"
     #
-    # Returns package file name.
+    #   filename()
+    #   # => "glibc-2.18-13.fc20.i686.rpm"
+    #
+    # Returns package filename String.
     def filename
-      "#{ self.name }-#{ self.version }-#{ self.release }.src.rpm"
+      if self.source
+        "#{ self.name }-#{ self.version }-#{ self.release }.src.rpm"
+      else
+        "#{ self.name }-#{ self.version }-#{ self.release }.#{ self.arch }.rpm"
+      end
     end
 
+    # Public: Return package group from rpm file.
+    #
+    # Examples
+    #
+    #   group()
+    #   # => "System Environment/Libraries"
+    #
+    # Returns package group String.
     def group
       read_tag('GROUP')
     end
 
+    # Public: Return packager from rpm file.
+    #
+    # Examples
+    #
+    #   packager()
+    #   # => "Fedora Project"
+    #
+    # Returns packager info String.
     def packager
       read_tag('PACKAGER')
     end
 
+    # Public: Return package summary from rpm file.
+    #
+    # Examples
+    #
+    #   summary()
+    #   # => "The GNU libc libraries"
+    #
+    # Return package summary String.
     def summary
       read_tag('SUMMARY')
     end
 
+    # Public: Return package license from rpm file.
+    #
+    # Examples
+    #
+    #   license()
+    #   # => "LGPLv2+ and LGPLv2+ with exceptions and GPLv2+"
+    #
+    # Return package license String.
     def license
       read_tag('LICENSE')
     end
 
+    # Public: Return package url from rpm file.
+    #
+    # Examples
+    #
+    #   url()
+    #   # => "http://www.gnu.org/software/glibc/"
+    #
+    # Return package url String.
     def url
       read_tag('URL')
     end
 
+    # Public: Return package description from rpm file.
+    #
+    # Examples
+    #
+    #   description()
+    #   # => "The glibc package contains standard libraries which are used by\nmultiple programs on the system. In order to save disk space and\nmemory, as well as to make upgrading easier, common system code is\nkept in one place and shared between programs. This particular package\ncontains the most important sets of shared libraries: the standard C\nlibrary and the standard math library. Without these two libraries, a\nLinux system will not function."
+    #
+    # Return package description String.
     def description
       read_tag('DESCRIPTION')
     end
 
+    # Public: Return package vendor from rpm file.
+    #
+    # Examples
+    #
+    #   vendor()
+    #   # => "Fedora Project"
+    #
+    # Return package vendor String.
     def vendor
       read_tag('VENDOR')
     end
 
+    # Public: Return package distribution from rpm file.
+    #
+    # Examples
+    #
+    #   distribution()
+    #   # => "Fedora Project"
+    #
+    # Return package distribution String.
     def distribution
       read_tag('DISTRIBUTION')
     end
@@ -199,12 +272,12 @@ module RPM
       ::File.size(file)
     end
 
-    def fileflags_with_filenames
-      queryformat = '[%{FILEFLAGS} %{FILENAMES}\n]'
-      read_array(queryformat)
-    end
+    # def fileflags_with_filenames
+    #   queryformat = '[%{FILEFLAGS} %{FILENAMES}\n]'
+    #   read_array(queryformat)
+    # end
 
-    def specfile
+    # def specfile
       # def self.import(branch, file, srpm)
       #   specfilename = `rpm -qp --queryformat=\"[%{FILEFLAGS} %{FILENAMES}\n]\" "#{file}" | grep \"32 \" | sed -e 's/32 //'`
       #   specfilename.strip!
@@ -217,8 +290,7 @@ module RPM
       #   specfile.spec = spec
       #   specfile.save!
       # end
-
-    end
+    # end
 
 
     # def self.import(branch, file, srpm)
