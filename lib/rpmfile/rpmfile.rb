@@ -321,21 +321,6 @@ module RPM
       content
     end
 
-    # def specfile
-      # def self.import(branch, file, srpm)
-      #   specfilename = `rpm -qp --queryformat=\"[%{FILEFLAGS} %{FILENAMES}\n]\" "#{file}" | grep \"32 \" | sed -e 's/32 //'`
-      #   specfilename.strip!
-      #   spec = `rpm2cpio "#{file}" | cpio -i --quiet --to-stdout "#{specfilename}"`
-      #   spec.force_encoding('binary')
-      #
-      #   specfile = Specfile.new
-      #   specfile.srpm_id = srpm.id
-      #   specfile.branch_id = branch.id
-      #   specfile.spec = spec
-      #   specfile.save!
-      # end
-    # end
-
 
     # def self.import(branch, file, srpm)
     #   files = `rpmquery --qf '[%{BASENAMES}\t%{FILESIZES}\n]' -p #{file}`
