@@ -23,7 +23,7 @@ module RPM
     #   read_tag('RELEASE')
     #   # => "13.fc20"
     #
-    # Return tag content String.
+    # Returns tag content String.
     def read_tag(tag)
       process = ChildProcess.build('rpm', '-qp', "--queryformat=%{#{ tag }}", file)
       process.environment['LANG'] = 'C'
@@ -39,9 +39,9 @@ module RPM
       content
     end
 
-    def read_array(queryformat)
-
-    end
+    # def read_array(queryformat)
+    #
+    # end
 
     # Public: Return package name from rpm file.
     #
@@ -175,7 +175,7 @@ module RPM
     #   summary()
     #   # => "The GNU libc libraries"
     #
-    # Return package summary String.
+    # Returns package summary String.
     def summary
       read_tag('SUMMARY')
     end
@@ -187,7 +187,7 @@ module RPM
     #   license()
     #   # => "LGPLv2+ and LGPLv2+ with exceptions and GPLv2+"
     #
-    # Return package license String.
+    # Returns package license String.
     def license
       read_tag('LICENSE')
     end
@@ -199,7 +199,7 @@ module RPM
     #   url()
     #   # => "http://www.gnu.org/software/glibc/"
     #
-    # Return package url String.
+    # Returns package url String.
     def url
       read_tag('URL')
     end
@@ -209,9 +209,9 @@ module RPM
     # Examples
     #
     #   description()
-    #   # => "The glibc package contains standard libraries which are used by\nmultiple programs on the system. In order to save disk space and\nmemory, as well as to make upgrading easier, common system code is\nkept in one place and shared between programs. This particular package\ncontains the most important sets of shared libraries: the standard C\nlibrary and the standard math library. Without these two libraries, a\nLinux system will not function."
+    #   # => "The glibc package contains standard libraries which are..."
     #
-    # Return package description String.
+    # Returns package description String.
     def description
       read_tag('DESCRIPTION')
     end
@@ -223,7 +223,7 @@ module RPM
     #   vendor()
     #   # => "Fedora Project"
     #
-    # Return package vendor String.
+    # Returns package vendor String.
     def vendor
       read_tag('VENDOR')
     end
@@ -235,7 +235,7 @@ module RPM
     #   distribution()
     #   # => "Fedora Project"
     #
-    # Return package distribution String.
+    # Returns package distribution String.
     def distribution
       read_tag('DISTRIBUTION')
     end
