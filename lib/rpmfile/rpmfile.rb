@@ -152,7 +152,7 @@ module RPM
     #
     # Returns package filename String.
     def filename
-      if self.source
+      if source
         "#{ self.name }-#{ self.version }-#{ self.release }.src.rpm"
       else
         "#{ self.name }-#{ self.version }-#{ self.release }.#{ self.arch }.rpm"
@@ -303,12 +303,40 @@ module RPM
       read_tag('CHANGELOGTEXT')
     end
 
+    # Public: Return source rpm filename from rpm file.
+    #
+    # Examples
+    #
+    #   sourcerpm()
+    #   # => nil
+    #
+    #   sourcerpm()
+    #   # => "glibc-2.18-13.fc20.src.rpm"
+    #
+    # Returns source rpm filename as String or nil if rpm is source rpm.
     def sourcerpm
       read_tag('SOURCERPM')
     end
 
+    # Public: Return architecture from rpm file.
+    #
+    # Examples
+    #
+    #   arch()
+    #   # => "i686"
+    #
+    #   arch()
+    #   # => "x86_64"
+    #
+    #   arch()
+    #   # => "noarch"
+    #
+    #   arch()
+    #   # => "armv7hl"
+    #
+    # Returns architecture of rpm file as String or nil if rpm is source rpm.
     def arch
-      read_tag('ARCH')
+      read_tag('ARCH') unless source
     end
 
     def md5
