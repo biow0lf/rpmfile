@@ -255,18 +255,50 @@ module RPM
       read_tag('DISTRIBUTION')
     end
 
+    # Public: Return package build time from rpm file.
+    #
+    # Examples
+    #
+    #   buildtime()
+    #   # => 2014-02-06 13:20:48 +0200
+    #
+    # Returns package build time as Time.
     def buildtime
       Time.at(read_tag('BUILDTIME').to_i)
     end
 
+    # Public: Return last changelog time from rpm file.
+    #
+    # Examples
+    #
+    #   changelogtime()
+    #   # => 2014-02-06 14:00:00 +0200
+    #
+    # Returns last changelog time as Time.
     def changelogtime
       Time.at(read_tag('CHANGELOGTIME').to_i)
     end
 
+    # Public: Return last changelog name from rpm file.
+    #
+    # Examples
+    #
+    #   changelogname()
+    #   # => "Siddhesh Poyarekar <siddhesh@redhat.com> - 2.18-13"
+    #
+    # Returns last changelog name as String.
     def changelogname
       read_tag('CHANGELOGNAME')
     end
 
+    # Public: Return last changelog text from rpm file.
+    #
+    # Examples
+    #
+    #   changelogtext()
+    #   # => "- Add pointer mangling support for ARM (#1019452)."
+    #
+    # Returns last changelog text as String.
     def changelogtext
       read_tag('CHANGELOGTEXT')
     end
