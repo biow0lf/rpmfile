@@ -381,6 +381,9 @@ module RPM
       content
     end
 
+    def buildhost
+      read_tag('BUILDHOST')
+    end
 
     # def self.import(branch, file, srpm)
     #   files = `rpmquery --qf '[%{BASENAMES}\t%{FILESIZES}\n]' -p #{file}`
@@ -549,7 +552,6 @@ end
 # DSAHEADER
 # RSAHEADER
 # SHA1HEADER
-# BUILDHOST
 # INSTALLTIME
 # SIZE
 # GIF
@@ -558,7 +560,6 @@ end
 # SOURCE
 # PATCH
 # OS
-# ARCH
 # PREIN
 # POSTIN
 # PREUN
@@ -575,7 +576,6 @@ end
 # FILEUSERNAME
 # FILEGROUPNAME
 # ICON
-# SOURCERPM
 # FILEVERIFYFLAGS
 # ARCHIVESIZE
 # PROVIDENAME
