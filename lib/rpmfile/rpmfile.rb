@@ -37,6 +37,7 @@ module RPM
     end
 
     # TODO:
+    #
     # ARCHIVESIZE
 
     # Public: Return buildhost from rpm file.
@@ -64,6 +65,7 @@ module RPM
     end
 
     # TODO:
+    #
     # C
 
     # Public: Return last changelog name from rpm file.
@@ -103,6 +105,7 @@ module RPM
     end
 
     # TODO:
+    #
     # CLASSDICT
     # COLLECTIONS
     # COOKIE
@@ -134,6 +137,7 @@ module RPM
     end
 
     # TODO:
+    #
     # DISTTAG
     # DISTURL
     # DSAHEADER
@@ -155,6 +159,7 @@ module RPM
     end
 
     # TODO:
+    #
     # EPOCHNUM
     # EVR
     # EXCLUDEARCH
@@ -176,6 +181,7 @@ module RPM
     end
 
     # TODO:
+    #
     # HDRID
     # HEADERCOLOR
     # HEADERI18NTABLE
@@ -203,6 +209,7 @@ module RPM
     end
 
     # TODO:
+    #
     # LONGARCHIVESIZE
     # LONGFILESIZES
     # LONGSIGSIZE
@@ -228,6 +235,7 @@ module RPM
     end
 
     # TODO:
+    #
     # NEVR
     # NEVRA
     # NOPATCH
@@ -236,8 +244,17 @@ module RPM
     # NVRA
     # O
 
-    # TODO:
-    # OPTFLAGS
+    # Public: Return package OPTFLAGS from rpm file.
+    #
+    # Examples
+    #
+    #   optflags()
+    #   # => "-O2 -g -pipe -Wall ..."
+    #
+    # Returns package OPTFLAGS as String or nil if OPTFLAGS is empty.
+    def optflags
+      @optflags ||= read_tag('OPTFLAGS')
+    end
 
     # Public: Return packager from rpm file.
     #
@@ -252,9 +269,11 @@ module RPM
     end
 
     # TODO:
+    #
     # PLATFORM
 
     # TODO:
+    #
     # POSTIN
     # POSTINFLAGS
     # POSTINPROG
@@ -276,6 +295,7 @@ module RPM
     # PREUNPROG
 
     # TODO:
+    #
     # PUBKEYS
     # R
     # RECONTEXTS
@@ -299,9 +319,11 @@ module RPM
     end
 
     # TODO:
+    #
     # REMOVETID
 
     # TODO:
+    #
     # RPMVERSION
     # RSAHEADER
     # SHA1HEADER
@@ -339,6 +361,7 @@ module RPM
     end
 
     # TODO:
+    #
     # TRIGGERCONDS
     # TRIGGERFLAGS
     # TRIGGERINDEX
@@ -356,12 +379,16 @@ module RPM
     #   url()
     #   # => "http://www.gnu.org/software/glibc/"
     #
-    # Returns package url String.
+    #   url()
+    #   # => nil
+    #
+    # Returns package url String or nil if package url is empty.
     def url
       @url ||= read_tag('URL')
     end
 
     # TODO:
+    #
     # V
     # VCS
 
@@ -378,6 +405,7 @@ module RPM
     end
 
     # TODO:
+    #
     # VERBOSE
     # VERIFYSCRIPT
     # VERIFYSCRIPTFLAGS
@@ -402,6 +430,7 @@ module RPM
     end
 
     # TODO:
+    #
     # XPM
 
     # End single tags.
