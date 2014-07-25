@@ -10,6 +10,401 @@ module RPM
       @source = source
     end
 
+    # Single rpm tags.
+
+    # Public: Return architecture from rpm file.
+    #
+    # Examples
+    #
+    #   arch()
+    #   # => "i686"
+    #
+    #   arch()
+    #   # => "x86_64"
+    #
+    #   arch()
+    #   # => "noarch"
+    #
+    #   arch()
+    #   # => "armv7hl"
+    #
+    # Returns architecture of rpm file as String or nil if rpm is source rpm.
+    def arch
+      @arch ||= read_tag('ARCH') unless source
+    end
+
+    # TODO:
+    # ARCHIVESIZE
+
+    # Public: Return buildhost from rpm file.
+    #
+    # Examples
+    #
+    #   buildhost()
+    #   # => "arm02-builder05.arm.fedoraproject.org"
+    #
+    # Returns package buildhost String.
+    def buildhost
+      @buildhost ||= read_tag('BUILDHOST')
+    end
+
+    # Public: Return package build time from rpm file.
+    #
+    # Examples
+    #
+    #   buildtime()
+    #   # => 2014-02-06 13:20:48 +0200
+    #
+    # Returns package build time as Time.
+    def buildtime
+      @buildtime ||= Time.at(read_tag('BUILDTIME').to_i)
+    end
+
+    # TODO:
+    # C
+
+    # Public: Return last changelog name from rpm file.
+    #
+    # Examples
+    #
+    #   changelogname()
+    #   # => "Siddhesh Poyarekar <siddhesh@redhat.com> - 2.18-13"
+    #
+    # Returns last changelog name as String.
+    def changelogname
+      @changelogname ||= read_tag('CHANGELOGNAME')
+    end
+
+    # Public: Return last changelog text from rpm file.
+    #
+    # Examples
+    #
+    #   changelogtext()
+    #   # => "- Add pointer mangling support for ARM (#1019452)."
+    #
+    # Returns last changelog text as String.
+    def changelogtext
+      @changelogtext ||= read_tag('CHANGELOGTEXT')
+    end
+
+    # Public: Return last changelog time from rpm file.
+    #
+    # Examples
+    #
+    #   changelogtime()
+    #   # => 2014-02-06 14:00:00 +0200
+    #
+    # Returns last changelog time as Time.
+    def changelogtime
+      @changelogtime ||= Time.at(read_tag('CHANGELOGTIME').to_i)
+    end
+
+    # TODO:
+    # CLASSDICT
+    # COLLECTIONS
+    # COOKIE
+    # DBINSTANCE
+    # DEPENDSDICT
+
+    # Public: Return package description from rpm file.
+    #
+    # Examples
+    #
+    #   description()
+    #   # => "The glibc package contains standard libraries which are..."
+    #
+    # Returns package description String.
+    def description
+      @description ||= read_tag('DESCRIPTION')
+    end
+
+    # Public: Return package distribution from rpm file.
+    #
+    # Examples
+    #
+    #   distribution()
+    #   # => "Fedora Project"
+    #
+    # Returns package distribution String.
+    def distribution
+      @distribution ||= read_tag('DISTRIBUTION')
+    end
+
+    # TODO:
+    # DISTTAG
+    # DISTURL
+    # DSAHEADER
+    # E
+
+    # Public: Return package epoch from rpm file.
+    #
+    # Examples
+    #
+    #   epoch()
+    #   # => nil
+    #
+    #   epoch()
+    #   # => "2"
+    #
+    # Returns package epoch String or nil if epoch is empty.
+    def epoch
+      @epoch ||= read_tag('EPOCH')
+    end
+
+    # TODO:
+    # EPOCHNUM
+    # EVR
+    # EXCLUDEARCH
+    # EXCLUDEOS
+    # EXCLUSIVEARCH
+    # EXCLUSIVEOS
+    # GIF
+
+    # Public: Return package group from rpm file.
+    #
+    # Examples
+    #
+    #   group()
+    #   # => "System Environment/Libraries"
+    #
+    # Returns package group String.
+    def group
+      @group ||= read_tag('GROUP')
+    end
+
+    # TODO:
+    # HDRID
+    # HEADERCOLOR
+    # HEADERI18NTABLE
+    # HEADERIMAGE
+    # HEADERIMMUTABLE
+    # HEADERREGIONS
+    # HEADERSIGNATURES
+    # ICON
+    # INSTALLCOLOR
+    # INSTALLTID
+    # INSTALLTIME
+    # INSTFILENAMES
+    # INSTPREFIXES
+
+    # Public: Return package license from rpm file.
+    #
+    # Examples
+    #
+    #   license()
+    #   # => "LGPLv2+ and LGPLv2+ with exceptions and GPLv2+"
+    #
+    # Returns package license String.
+    def license
+      @license ||= read_tag('LICENSE')
+    end
+
+    # TODO:
+    # LONGARCHIVESIZE
+    # LONGFILESIZES
+    # LONGSIGSIZE
+    # LONGSIZE
+    # N
+
+    # Public: Return package name from rpm file.
+    #
+    # Examples
+    #
+    #   name()
+    #   # => "glibc"
+    #
+    #   name()
+    #   # => "bash"
+    #
+    #   name()
+    #   # => "tar"
+    #
+    # Returns package name String.
+    def name
+      @name ||= read_tag('NAME')
+    end
+
+    # TODO:
+    # NEVR
+    # NEVRA
+    # NOPATCH
+    # NOSOURCE
+    # NVR
+    # NVRA
+    # O
+
+    # TODO:
+    # OPTFLAGS
+
+    # Public: Return packager from rpm file.
+    #
+    # Examples
+    #
+    #   packager()
+    #   # => "Fedora Project"
+    #
+    # Returns packager info String.
+    def packager
+      @packager ||= read_tag('PACKAGER')
+    end
+
+    # TODO:
+    # PLATFORM
+
+    # TODO:
+    # POSTIN
+    # POSTINFLAGS
+    # POSTINPROG
+    # POSTTRANS
+    # POSTTRANSFLAGS
+    # POSTTRANSPROG
+    # POSTUN
+    # POSTUNFLAGS
+    # POSTUNPROG
+    # PREFIXES
+    # PREIN
+    # PREINFLAGS
+    # PREINPROG
+    # PRETRANS
+    # PRETRANSFLAGS
+    # PRETRANSPROG
+    # PREUN
+    # PREUNFLAGS
+    # PREUNPROG
+
+    # TODO:
+    # PUBKEYS
+    # R
+    # RECONTEXTS
+
+    # Public: Return package release from rpm file.
+    #
+    # Examples
+    #
+    #   release()
+    #   # => "13.fc20"
+    #
+    #   release()
+    #   # => "3.fc20"
+    #
+    #   release()
+    #   # => "31.fc20"
+    #
+    # Returns package release String.
+    def release
+      @release ||= read_tag('RELEASE')
+    end
+
+    # TODO:
+    # REMOVETID
+
+    # TODO:
+    # RPMVERSION
+    # RSAHEADER
+    # SHA1HEADER
+    # SIGGPG
+    # SIGMD5
+    # SIGPGP
+    # SIGSIZE
+    # SIZE
+
+    # Public: Return source rpm filename from rpm file.
+    #
+    # Examples
+    #
+    #   sourcerpm()
+    #   # => nil
+    #
+    #   sourcerpm()
+    #   # => "glibc-2.18-13.fc20.src.rpm"
+    #
+    # Returns source rpm filename as String or nil if rpm is source rpm.
+    def sourcerpm
+      @sourcerpm ||= read_tag('SOURCERPM')
+    end
+
+    # Public: Return package summary from rpm file.
+    #
+    # Examples
+    #
+    #   summary()
+    #   # => "The GNU libc libraries"
+    #
+    # Returns package summary String.
+    def summary
+      @summary ||= read_tag('SUMMARY')
+    end
+
+    # TODO:
+    # TRIGGERCONDS
+    # TRIGGERFLAGS
+    # TRIGGERINDEX
+    # TRIGGERNAME
+    # TRIGGERSCRIPTFLAGS
+    # TRIGGERSCRIPTPROG
+    # TRIGGERSCRIPTS
+    # TRIGGERTYPE
+    # TRIGGERVERSION
+
+    # Public: Return package url from rpm file.
+    #
+    # Examples
+    #
+    #   url()
+    #   # => "http://www.gnu.org/software/glibc/"
+    #
+    # Returns package url String.
+    def url
+      @url ||= read_tag('URL')
+    end
+
+    # TODO:
+    # V
+    # VCS
+
+    # Public: Return package vendor from rpm file.
+    #
+    # Examples
+    #
+    #   vendor()
+    #   # => "Fedora Project"
+    #
+    # Returns package vendor String.
+    def vendor
+      @vendor ||= read_tag('VENDOR')
+    end
+
+    # TODO:
+    # VERBOSE
+    # VERIFYSCRIPT
+    # VERIFYSCRIPTFLAGS
+    # VERIFYSCRIPTPROG
+
+    # Public: Return package version from rpm file.
+    #
+    # Examples
+    #
+    #   version()
+    #   # => "2.18"
+    #
+    #   version()
+    #   # => "4.2.47"
+    #
+    #   version()
+    #   # => "1.26"
+    #
+    # Returns package version String.
+    def version
+      @version ||= read_tag('VERSION')
+    end
+
+    # TODO:
+    # XPM
+
+    # End single tags.
+
+    # =========================================
+
     # Internal: Read tag via rpm binary.
     #
     # Examples
@@ -58,75 +453,6 @@ module RPM
       output
     end
 
-    # Public: Return package name from rpm file.
-    #
-    # Examples
-    #
-    #   name()
-    #   # => "glibc"
-    #
-    #   name()
-    #   # => "bash"
-    #
-    #   name()
-    #   # => "tar"
-    #
-    # Returns package name String.
-    def name
-      read_tag('NAME')
-    end
-
-    # Public: Return package version from rpm file.
-    #
-    # Examples
-    #
-    #   version()
-    #   # => "2.18"
-    #
-    #   version()
-    #   # => "4.2.47"
-    #
-    #   version()
-    #   # => "1.26"
-    #
-    # Returns package version String.
-    def version
-      read_tag('VERSION')
-    end
-
-    # Public: Return package release from rpm file.
-    #
-    # Examples
-    #
-    #   release()
-    #   # => "13.fc20"
-    #
-    #   release()
-    #   # => "3.fc20"
-    #
-    #   release()
-    #   # => "31.fc20"
-    #
-    # Returns package release String.
-    def release
-      read_tag('RELEASE')
-    end
-
-    # Public: Return package epoch from rpm file.
-    #
-    # Examples
-    #
-    #   epoch()
-    #   # => nil
-    #
-    #   epoch()
-    #   # => "2"
-    #
-    # Returns package epoch String or nil if epoch is empty.
-    def epoch
-      read_tag('EPOCH')
-    end
-
     # Public: Return package serial from rpm file. Fresh fedora 20+
     #   (maybe older) rpm dont know about 'SERIAL'.
     #
@@ -137,7 +463,7 @@ module RPM
     #
     # Returns package serial String or nil if serial is empty.
     def serial
-      read_tag('SERIAL')
+      @serial ||= read_tag('SERIAL')
     end
 
     # Public: Return package file name.
@@ -159,193 +485,13 @@ module RPM
       end
     end
 
-    # Public: Return package group from rpm file.
-    #
-    # Examples
-    #
-    #   group()
-    #   # => "System Environment/Libraries"
-    #
-    # Returns package group String.
-    def group
-      read_tag('GROUP')
-    end
-
-    # Public: Return packager from rpm file.
-    #
-    # Examples
-    #
-    #   packager()
-    #   # => "Fedora Project"
-    #
-    # Returns packager info String.
-    def packager
-      read_tag('PACKAGER')
-    end
-
-    # Public: Return package summary from rpm file.
-    #
-    # Examples
-    #
-    #   summary()
-    #   # => "The GNU libc libraries"
-    #
-    # Returns package summary String.
-    def summary
-      read_tag('SUMMARY')
-    end
-
-    # Public: Return package license from rpm file.
-    #
-    # Examples
-    #
-    #   license()
-    #   # => "LGPLv2+ and LGPLv2+ with exceptions and GPLv2+"
-    #
-    # Returns package license String.
-    def license
-      read_tag('LICENSE')
-    end
-
-    # Public: Return package url from rpm file.
-    #
-    # Examples
-    #
-    #   url()
-    #   # => "http://www.gnu.org/software/glibc/"
-    #
-    # Returns package url String.
-    def url
-      read_tag('URL')
-    end
-
-    # Public: Return package description from rpm file.
-    #
-    # Examples
-    #
-    #   description()
-    #   # => "The glibc package contains standard libraries which are..."
-    #
-    # Returns package description String.
-    def description
-      read_tag('DESCRIPTION')
-    end
-
-    # Public: Return package vendor from rpm file.
-    #
-    # Examples
-    #
-    #   vendor()
-    #   # => "Fedora Project"
-    #
-    # Returns package vendor String.
-    def vendor
-      read_tag('VENDOR')
-    end
-
-    # Public: Return package distribution from rpm file.
-    #
-    # Examples
-    #
-    #   distribution()
-    #   # => "Fedora Project"
-    #
-    # Returns package distribution String.
-    def distribution
-      read_tag('DISTRIBUTION')
-    end
-
-    # Public: Return package build time from rpm file.
-    #
-    # Examples
-    #
-    #   buildtime()
-    #   # => 2014-02-06 13:20:48 +0200
-    #
-    # Returns package build time as Time.
-    def buildtime
-      Time.at(read_tag('BUILDTIME').to_i)
-    end
-
-    # Public: Return last changelog time from rpm file.
-    #
-    # Examples
-    #
-    #   changelogtime()
-    #   # => 2014-02-06 14:00:00 +0200
-    #
-    # Returns last changelog time as Time.
-    def changelogtime
-      Time.at(read_tag('CHANGELOGTIME').to_i)
-    end
-
-    # Public: Return last changelog name from rpm file.
-    #
-    # Examples
-    #
-    #   changelogname()
-    #   # => "Siddhesh Poyarekar <siddhesh@redhat.com> - 2.18-13"
-    #
-    # Returns last changelog name as String.
-    def changelogname
-      read_tag('CHANGELOGNAME')
-    end
-
-    # Public: Return last changelog text from rpm file.
-    #
-    # Examples
-    #
-    #   changelogtext()
-    #   # => "- Add pointer mangling support for ARM (#1019452)."
-    #
-    # Returns last changelog text as String.
-    def changelogtext
-      read_tag('CHANGELOGTEXT')
-    end
-
-    # Public: Return source rpm filename from rpm file.
-    #
-    # Examples
-    #
-    #   sourcerpm()
-    #   # => nil
-    #
-    #   sourcerpm()
-    #   # => "glibc-2.18-13.fc20.src.rpm"
-    #
-    # Returns source rpm filename as String or nil if rpm is source rpm.
-    def sourcerpm
-      read_tag('SOURCERPM')
-    end
-
-    # Public: Return architecture from rpm file.
-    #
-    # Examples
-    #
-    #   arch()
-    #   # => "i686"
-    #
-    #   arch()
-    #   # => "x86_64"
-    #
-    #   arch()
-    #   # => "noarch"
-    #
-    #   arch()
-    #   # => "armv7hl"
-    #
-    # Returns architecture of rpm file as String or nil if rpm is source rpm.
-    def arch
-      read_tag('ARCH') unless source
-    end
-
     def md5
-      Digest::MD5.file(file).hexdigest
+      @md5 ||= Digest::MD5.file(file).hexdigest
     end
 
-    def file_size
-      ::File.size(file)
-    end
+    # def file_size
+    #   @file_size ||= ::File.size(file)
+    # end
 
     def fileflags_with_filenames
       queryformat = '[%{FILEFLAGS} %{FILENAMES}\n]'
@@ -357,7 +503,7 @@ module RPM
     end
 
     def extract_specfile
-      extract_file(spec_filename)
+      @extract_specfile ||= extract_file(spec_filename)
     end
 
     def extract_file(filename)
@@ -379,10 +525,6 @@ module RPM
       cpio.io.stdout.unlink
       content.force_encoding('binary')
       content
-    end
-
-    def buildhost
-      read_tag('BUILDHOST')
     end
 
     # def self.import(branch, file, srpm)
@@ -539,113 +681,87 @@ module RPM
   end
 end
 
-# HEADERIMAGE
-# HEADERSIGNATURES
-# HEADERIMMUTABLE
-# HEADERREGIONS
-# HEADERI18NTABLE
-# SIGSIZE
-# SIGPGP
-# SIGMD5
-# SIGGPG
-# PUBKEYS
-# DSAHEADER
-# RSAHEADER
-# SHA1HEADER
-# INSTALLTIME
-# SIZE
-# GIF
-# XPM
-# COPYRIGHT
-# SOURCE
-# PATCH
-# OS
-# PREIN
-# POSTIN
-# PREUN
-# POSTUN
-# OLDFILENAMES
-# FILESIZES
-# FILESTATES
-# FILEMODES
-# FILERDEVS
-# FILEMTIMES
-# FILEMD5S
-# FILELINKTOS
-# FILEFLAGS
-# FILEUSERNAME
-# FILEGROUPNAME
-# ICON
-# FILEVERIFYFLAGS
-# ARCHIVESIZE
-# PROVIDENAME
-# PROVIDES
-# REQUIREFLAGS
-# REQUIRENAME
-# REQUIREVERSION
+# BASENAMES
 # CONFLICTFLAGS
 # CONFLICTNAME
+# CONFLICTNEVRS
+# CONFLICTS
 # CONFLICTVERSION
-# EXCLUDEARCH
-# EXCLUDEOS
-# EXCLUSIVEARCH
-# EXCLUSIVEOS
-# RPMVERSION
-# TRIGGERSCRIPTS
-# TRIGGERNAME
-# TRIGGERVERSION
-# TRIGGERFLAGS
-# TRIGGERINDEX
-# VERIFYSCRIPT
-# PREINPROG
-# POSTINPROG
-# PREUNPROG
-# POSTUNPROG
-# BUILDARCHS
-# OBSOLETENAME
-# OBSOLETES
-# VERIFYSCRIPTPROG
-# TRIGGERSCRIPTPROG
-# COOKIE
+# DIRINDEXES
+# DIRNAMES
+
+# FILECAPS
+# FILECLASS
+# FILECOLORS
+# FILECONTEXTS
+# FILEDEPENDSN
+# FILEDEPENDSX
 # FILEDEVICES
+# FILEDIGESTALGO
+# FILEDIGESTS
+# FILEFLAGS
+# FILEGROUPNAME
 # FILEINODES
 # FILELANGS
-# PREFIXES
-# INSTPREFIXES
-# SOURCEPACKAGE
-# PROVIDEFLAGS
-# PROVIDEVERSION
+# FILELINKTOS
+# FILEMD5S
+# FILEMODES
+# FILEMTIMES
+# FILENAMES
+# FILENLINKS
+# FILEPROVIDE
+# FILERDEVS
+# FILEREQUIRE
+# FILESIZES
+# FILESTATES
+# FILEUSERNAME
+# FILEVERIFYFLAGS
+# FSCONTEXTS
+
 # OBSOLETEFLAGS
+# OBSOLETENAME
+# OBSOLETENEVRS
+# OBSOLETES
 # OBSOLETEVERSION
-# DIRINDEXES
-# BASENAMES
-# DIRNAMES
-# OPTFLAGS
-# DISTURL
-# PAYLOADFORMAT
+# OLDFILENAMES
+
+# ORDERFLAGS
+# ORDERNAME
+# ORDERVERSION
+# ORIGBASENAMES
+# ORIGDIRINDEXES
+# ORIGDIRNAMES
+# ORIGFILENAMES
+# OS
+# P
+
+# PATCH
+# PATCHESFLAGS
+# PATCHESNAME
+# PATCHESVERSION
 # PAYLOADCOMPRESSOR
 # PAYLOADFLAGS
-# INSTALLTID
-# REMOVETID
-# RHNPLATFORM
-# PLATFORM
-# PATCHESNAME
-# PATCHESFLAGS
-# PATCHESVERSION
-# CACHECTIME
-# CACHEPKGPATH
-# CACHEPKGSIZE
-# CACHEPKGMTIME
-# FILECOLORS
-# FILECLASS
-# CLASSDICT
-# FILEDEPENDSX
-# FILEDEPENDSN
-# DEPENDSDICT
+# PAYLOADFORMAT
+# PKGID
+
+# POLICIES
+# POLICYFLAGS
+# POLICYNAMES
+# POLICYTYPES
+# POLICYTYPESINDEXES
+
+# PROVIDEFLAGS
+# PROVIDENAME
+# PROVIDENEVRS
+# PROVIDES
+# PROVIDEVERSION
+
+# REQUIREFLAGS
+# REQUIRENAME
+# REQUIRENEVRS
+# REQUIRES
+# REQUIREVERSION
+
+# SOURCE
+# SOURCEPACKAGE
 # SOURCEPKGID
-# FILENAMES
-# FSSIZES
-# FSNAMES
-# INSTALLPREFIX
-# TRIGGERCONDS
-# TRIGGERTYPE
