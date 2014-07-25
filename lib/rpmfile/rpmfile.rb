@@ -28,6 +28,9 @@ module RPM
     #   arch()
     #   # => "armv7hl"
     #
+    #   arch()
+    #   # => nil
+    #
     # Returns architecture of rpm file as String or nil if rpm is source rpm.
     def arch
       @arch ||= read_tag('ARCH') unless source
@@ -443,6 +446,8 @@ module RPM
 
     # =========================================
 
+    # Internal stuff.
+
     # Internal: Read tag via rpm binary.
     #
     # Examples
@@ -491,6 +496,8 @@ module RPM
       end
       output
     end
+
+    # End internal stuff.
 
     def md5
       @md5 ||= Digest::MD5.file(file).hexdigest
