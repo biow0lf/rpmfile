@@ -471,6 +471,30 @@ module RPM
       end
     end
 
+    # Public: Return package md5 sum of rpm file.
+    #
+    # Examples
+    #
+    #   md5()
+    #   #=> "59866f10b259a9f1d401cb48e6dda048"
+    #
+    # Returns package md5 sum as String.
+    def md5
+      @md5 ||= Digest::MD5.file(file).hexdigest
+    end
+
+    # Public: Return rpm file size.
+    #
+    # Examples
+    #
+    #   filesize()
+    #   # => 22447235
+    #
+    # Returns rpm file size as Fixnum.
+    def filesize
+      @filesize ||= ::File.size(file)
+    end
+
     # End extra stuff.
 
     # =========================================
@@ -526,14 +550,6 @@ module RPM
     end
 
     # End internal stuff.
-
-    def md5
-      @md5 ||= Digest::MD5.file(file).hexdigest
-    end
-
-    # def file_size
-    #   @file_size ||= ::File.size(file)
-    # end
 
     def fileflags_with_filenames
       queryformat = '[%{FILEFLAGS} %{FILENAMES}\n]'
