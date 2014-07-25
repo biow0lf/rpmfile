@@ -403,6 +403,44 @@ module RPM
 
     # End single tags.
 
+    # Extra stuff.
+
+    # Public: Return package serial from rpm file. Fresh fedora 20+
+    #   (maybe older) rpm dont know about 'SERIAL'.
+    #
+    # Examples
+    #
+    #   serial()
+    #   # => nil
+    #
+    # Returns package serial String or nil if serial is empty.
+    def serial
+      @serial ||= read_tag('SERIAL')
+    end
+
+    # Public: Return package file name.
+    #
+    # Examples
+    #
+    #   filename()
+    #   # => "glibc-2.18-13.fc20.src.rpm"
+    #
+    #   filename()
+    #   # => "glibc-2.18-13.fc20.i686.rpm"
+    #
+    # Returns package filename String.
+    def filename
+      @filename ||= begin
+        if source
+          "#{ self.name }-#{ self.version }-#{ self.release }.src.rpm"
+        else
+          "#{ self.name }-#{ self.version }-#{ self.release }.#{ self.arch }.rpm"
+        end
+      end
+    end
+
+    # End extra stuff.
+
     # =========================================
 
     # Internal: Read tag via rpm binary.
@@ -420,6 +458,7 @@ module RPM
     #
     # Returns tag content String.
     def read_tag(tag)
+      puts "fuck"
       process = ChildProcess.build('rpm', '-qp', "--queryformat=%{#{ tag }}", file)
       process.environment['LANG'] = 'C'
       process.io.stdout = Tempfile.new('child-output')
@@ -451,38 +490,6 @@ module RPM
         output << line.split(' ')
       end
       output
-    end
-
-    # Public: Return package serial from rpm file. Fresh fedora 20+
-    #   (maybe older) rpm dont know about 'SERIAL'.
-    #
-    # Examples
-    #
-    #   serial()
-    #   # => nil
-    #
-    # Returns package serial String or nil if serial is empty.
-    def serial
-      @serial ||= read_tag('SERIAL')
-    end
-
-    # Public: Return package file name.
-    #
-    # Examples
-    #
-    #   filename()
-    #   # => "glibc-2.18-13.fc20.src.rpm"
-    #
-    #   filename()
-    #   # => "glibc-2.18-13.fc20.i686.rpm"
-    #
-    # Returns package filename String.
-    def filename
-      if source
-        "#{ self.name }-#{ self.version }-#{ self.release }.src.rpm"
-      else
-        "#{ self.name }-#{ self.version }-#{ self.release }.#{ self.arch }.rpm"
-      end
     end
 
     def md5
