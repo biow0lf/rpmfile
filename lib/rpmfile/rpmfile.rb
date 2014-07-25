@@ -544,8 +544,8 @@ module RPM
       fileflags_with_filenames.reject! {|line| line[0] == '0'}[0][1]
     end
 
-    def extract_specfile
-      @extract_specfile ||= extract_file(spec_filename)
+    def specfile
+      @specfile ||= extract_file(spec_filename)
     end
 
     def extract_file(filename)
