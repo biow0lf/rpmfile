@@ -1,5 +1,6 @@
 # Rpmfile
 
+[![Code Climate](https://codeclimate.com/github/biow0lf/rpmfile.png)](https://codeclimate.com/github/biow0lf/rpmfile)
 [![Inline docs](http://inch-ci.org/github/biow0lf/rpmfile.png?branch=master)](http://inch-ci.org/github/biow0lf/rpmfile)
 
 TODO: Write a gem description
