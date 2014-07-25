@@ -492,7 +492,6 @@ module RPM
     #
     # Returns tag content String.
     def read_tag(tag)
-      puts "fuck"
       process = ChildProcess.build('rpm', '-qp', "--queryformat=%{#{ tag }}", file)
       process.environment['LANG'] = 'C'
       process.io.stdout = Tempfile.new('child-output')
