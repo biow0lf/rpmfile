@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = RPM::File::VERSION
   spec.authors       = ['Igor Zubkov']
   spec.email         = ['igor.zubkov@gmail.com']
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Read rpm file info via rpm binary.}
+  spec.description   = %q{Read rpm file info via rpm binary.}
   spec.homepage      = 'https://github.com/biow0lf/rpmfile'
   spec.license       = 'MIT'
 
@@ -20,8 +20,11 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler', '~> 1.6'
   spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rspec'
-  spec.add_development_dependency 'guard'
-  spec.add_development_dependency 'guard-rspec'
+#  spec.add_development_dependency 'inch'
+#  # spec.add_development_dependency 'rspec'
+#  spec.add_development_dependency 'libnotify'
+#  spec.add_development_dependency 'guard'
+#  # spec.add_development_dependency 'guard-rspec'
+#  spec.add_development_dependency 'guard-inch'
   spec.add_runtime_dependency 'childprocess'
 end
