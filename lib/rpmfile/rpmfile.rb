@@ -588,61 +588,71 @@ module RPM
 
     def build_requires
       if source
-        queryformat = '[%{REQUIRENAME} %{REQUIREFLAGS:deptype} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]'
-        array = read_array(queryformat)
-        output = []
-        array.each do |record|
-          output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+        @build_requires ||= begin
+          queryformat = '[%{REQUIRENAME} %{REQUIREFLAGS:deptype} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]'
+          array = read_array(queryformat)
+          output = []
+          array.each do |record|
+            output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+          end
+          output
         end
-        output
       end
     end
 
     def provides
       unless source
-        queryformat = '[%{PROVIDENAME} %{PROVIDEFLAGS:deptype} %{PROVIDEFLAGS:depflags} %{PROVIDEVERSION}\n]'
-        array = read_array(queryformat)
-        output = []
-        array.each do |record|
-          output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+        @provides ||= begin
+          queryformat = '[%{PROVIDENAME} %{PROVIDEFLAGS:deptype} %{PROVIDEFLAGS:depflags} %{PROVIDEVERSION}\n]'
+          array = read_array(queryformat)
+          output = []
+          array.each do |record|
+            output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+          end
+          output
         end
-        output
       end
     end
 
     def requires
       unless source
-        queryformat = '[%{REQUIRENAME} %{REQUIREFLAGS:deptype} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]'
-        array = read_array(queryformat)
-        output = []
-        array.each do |record|
-          output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+        @requires ||= begin
+          queryformat = '[%{REQUIRENAME} %{REQUIREFLAGS:deptype} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]'
+          array = read_array(queryformat)
+          output = []
+          array.each do |record|
+            output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+          end
+          output
         end
-        output
       end
     end
 
     def conflicts
       unless source
-        queryformat = '[%{CONFLICTNAME} %{CONFLICTFLAGS:deptype} %{CONFLICTFLAGS:depflags} %{CONFLICTVERSION}\n]'
-        array = read_array(queryformat)
-        output = []
-        array.each do |record|
-          output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+        @conflicts ||= begin
+          queryformat = '[%{CONFLICTNAME} %{CONFLICTFLAGS:deptype} %{CONFLICTFLAGS:depflags} %{CONFLICTVERSION}\n]'
+          array = read_array(queryformat)
+          output = []
+          array.each do |record|
+            output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+          end
+          output
         end
-        output
       end
     end
 
     def obsoletes
       unless source
-        queryformat = '[%{OBSOLETENAME} %{OBSOLETEFLAGS:deptype} %{OBSOLETEFLAGS:depflags} %{OBSOLETEVERSION}\n]'
-        array = read_array(queryformat)
-        output = []
-        array.each do |record|
-          output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+        @obsoletes ||= begin
+          queryformat = '[%{OBSOLETENAME} %{OBSOLETEFLAGS:deptype} %{OBSOLETEFLAGS:depflags} %{OBSOLETEVERSION}\n]'
+          array = read_array(queryformat)
+          output = []
+          array.each do |record|
+            output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+          end
+          output
         end
-        output
       end
     end
 
