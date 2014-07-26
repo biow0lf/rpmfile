@@ -537,6 +537,21 @@ module RPM
       output
     end
 
+    def read_raw(queryformat)
+      process = ChildProcess.build('rpm', '-qp', "--queryformat=#{ queryformat }", file)
+      process.environment['LANG'] = 'C'
+      process.io.stdout = Tempfile.new('child-output')
+      process.start
+      process.wait
+      process.io.stdout.rewind
+      content = process.io.stdout.read
+      process.io.stdout.close
+      process.io.stdout.unlink
+      content = nil if content == '(none)'
+      content = nil if content == ''
+      content
+    end
+
     def fileflags_with_filenames
       queryformat = '[%{FILEFLAGS} %{FILENAMES}\n]'
       read_array(queryformat)
@@ -567,7 +582,7 @@ module RPM
       content = cpio.io.stdout.read
       cpio.io.stdout.close
       cpio.io.stdout.unlink
-      content.force_encoding('binary')
+      # content.force_encoding('binary')
       content
     end
 
@@ -631,6 +646,23 @@ module RPM
       end
     end
 
+    def changelogs
+      @changelogs ||= begin
+        queryformat = '[%{CHANGELOGTIME}\n**********\n%{CHANGELOGNAME}\n**********\n%{CHANGELOGTEXT}\n**********\n]'
+        raw = read_raw(queryformat)
+        # raw.force_encoding('binary')
+        raw = raw.split("\n**********\n")
+        output = []
+        while !raw.empty?
+          record = raw.slice!(0..2)
+          output << { :changelogtime => Time.at(record[0].to_i),
+                      :changelogname => record[1],
+                      :changelogtext => record[2] }
+        end
+        output
+      end
+    end
+
     # def self.import(branch, file, srpm)
     #   files = `rpmquery --qf '[%{BASENAMES}\t%{FILESIZES}\n]' -p #{file}`
     #   hsh = {}
@@ -689,34 +721,6 @@ module RPM
     #     source.branch_id = branch.id
     #     source.srpm_id = srpm.id
     #     source.save!
-    #   end
-    # end
-
-    # def self.import(branch, file, srpm)
-    #   specfilename = `rpm -qp --queryformat=\"[%{FILEFLAGS} %{FILENAMES}\n]\" "#{file}" | grep \"32 \" | sed -e 's/32 //'`
-    #   specfilename.strip!
-    #   spec = `rpm2cpio "#{file}" | cpio -i --quiet --to-stdout "#{specfilename}"`
-    #   spec.force_encoding('binary')
-    #
-    #   specfile = Specfile.new
-    #   specfile.srpm_id = srpm.id
-    #   specfile.branch_id = branch.id
-    #   specfile.spec = spec
-    #   specfile.save!
-    # end
-
-    # def self.import(branch, file, srpm)
-    #   changelogs = `export LANG=C && rpm -qp --queryformat='[%{CHANGELOGTIME}\n**********\n%{CHANGELOGNAME}\n**********\n%{CHANGELOGTEXT}\n**********\n]' #{file}`
-    #   changelogs.force_encoding('binary')
-    #   changelogs = changelogs.split("\n**********\n")
-    #   while !changelogs.empty?
-    #     record = changelogs.slice!(0..2)
-    #     changelog = Changelog.new
-    #     changelog.srpm_id = srpm.id
-    #     changelog.changelogtime = record[0]
-    #     changelog.changelogname = record[1]
-    #     changelog.changelogtext = record[2]
-    #     changelog.save!
     #   end
     # end
 
