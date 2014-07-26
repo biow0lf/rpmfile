@@ -10,8 +10,6 @@ module RPM
       @source = source
     end
 
-    # Single rpm tags.
-
     # Public: Return architecture from rpm file.
     #
     # Examples
@@ -433,10 +431,6 @@ module RPM
     #
     # XPM
 
-    # End single tags.
-
-    # Extra stuff.
-
     # Public: Return package serial from rpm file. Fresh fedora 20+
     #   (maybe older) rpm dont know about 'SERIAL'.
     #
@@ -495,12 +489,6 @@ module RPM
       @filesize ||= ::File.size(file)
     end
 
-    # End extra stuff.
-
-    # =========================================
-
-    # Internal stuff.
-
     # Internal: Read tag via rpm binary.
     #
     # Examples
@@ -549,19 +537,17 @@ module RPM
       output
     end
 
-    # End internal stuff.
-
     def fileflags_with_filenames
       queryformat = '[%{FILEFLAGS} %{FILENAMES}\n]'
       read_array(queryformat)
     end
 
-    def spec_filename
-      fileflags_with_filenames.reject! {|line| line[0] == '0'}[0][1]
+    def specfilename
+      @specfilename ||= fileflags_with_filenames.reject! {|line| line[0] == '0'}[0][1]
     end
 
     def specfile
-      @specfile ||= extract_file(spec_filename)
+      @specfile ||= extract_file(specfilename)
     end
 
     def extract_file(filename)
@@ -583,6 +569,66 @@ module RPM
       cpio.io.stdout.unlink
       content.force_encoding('binary')
       content
+    end
+
+    def build_requires
+      if source
+        queryformat = '[%{REQUIRENAME} %{REQUIREFLAGS:deptype} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]'
+        array = read_array(queryformat)
+        output = []
+        array.each do |record|
+          output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+        end
+        output
+      end
+    end
+
+    def provides
+      unless source
+        queryformat = '[%{PROVIDENAME} %{PROVIDEFLAGS:deptype} %{PROVIDEFLAGS:depflags} %{PROVIDEVERSION}\n]'
+        array = read_array(queryformat)
+        output = []
+        array.each do |record|
+          output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+        end
+        output
+      end
+    end
+
+    def requires
+      unless source
+        queryformat = '[%{REQUIRENAME} %{REQUIREFLAGS:deptype} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]'
+        array = read_array(queryformat)
+        output = []
+        array.each do |record|
+          output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+        end
+        output
+      end
+    end
+
+    def conflicts
+      unless source
+        queryformat = '[%{CONFLICTNAME} %{CONFLICTFLAGS:deptype} %{CONFLICTFLAGS:depflags} %{CONFLICTVERSION}\n]'
+        array = read_array(queryformat)
+        output = []
+        array.each do |record|
+          output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+        end
+        output
+      end
+    end
+
+    def obsoletes
+      unless source
+        queryformat = '[%{OBSOLETENAME} %{OBSOLETEFLAGS:deptype} %{OBSOLETEFLAGS:depflags} %{OBSOLETEVERSION}\n]'
+        array = read_array(queryformat)
+        output = []
+        array.each do |record|
+          output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+        end
+        output
+      end
     end
 
     # def self.import(branch, file, srpm)
@@ -608,34 +654,6 @@ module RPM
     #     patch.save!
     #   end
     # end
-
-    # FIXME: this code is broken
-    #  def self.import_provides(rpm, package)
-    #    rpm.provides.each do |p|
-    #      provide = Provide.new
-    #      provide.package = package
-    #      provide.name = p.name
-    #      provide.version = p.version.v
-    #      provide.release = p.version.r
-    #      provide.epoch = p.version.e
-    #      provide.flags = p.flags
-    #      provide.save!
-    #    end
-    #  end
-
-    # FIXME: this code is broken
-    #  def self.import_requires(rpm, package)
-    #    rpm.requires.each do |r|
-    #      req = Require.new
-    #      req.package = package
-    #      req.name = r.name
-    #      req.version = r.version.v
-    #      req.release = r.version.r
-    #      req.epoch = r.version.e
-    #      req.flags = r.flags
-    #      req.save!
-    #    end
-    #  end
 
     # class Rpm
     #   def self.check_md5(file)
@@ -687,11 +705,6 @@ module RPM
     #   specfile.save!
     # end
 
-
-    # def size
-    #   read_tag('SIZE')
-    # end
-
     # def self.import(branch, file, srpm)
     #   changelogs = `export LANG=C && rpm -qp --queryformat='[%{CHANGELOGTIME}\n**********\n%{CHANGELOGNAME}\n**********\n%{CHANGELOGTEXT}\n**********\n]' #{file}`
     #   changelogs.force_encoding('binary')
@@ -707,44 +720,10 @@ module RPM
     #   end
     # end
 
-    # FIXME: this code broken
-    #  def self.import_conflicts(rpm, package)
-    #    rpm.conflicts.each do |c|
-    #      conflict = Conflict.new
-    #      conflict.package = package
-    #      conflict.name = c.name
-    #      conflict.version = c.version.v
-    #      conflict.release = c.version.r
-    #      conflict.epoch = c.version.e
-    #      conflict.flags = c.flags
-    #      conflict.save!
-    #    end
-    #  end
-
-    # FIXME: this code is broken
-    #  def self.import_obsoletes(rpm, package)
-    #    rpm.obsoletes.each do |o|
-    #      obsolete = Obsolete.new
-    #      obsolete.package = package
-    #      obsolete.name = o.name
-    #      obsolete.version = o.version.v
-    #      obsolete.release = o.version.r
-    #      obsolete.epoch = o.version.e
-    #      obsolete.flags = o.flags
-    #      obsolete.save!
-    #    end
-    #  end
-
-
   end
 end
 
 # BASENAMES
-# CONFLICTFLAGS
-# CONFLICTNAME
-# CONFLICTNEVRS
-# CONFLICTS
-# CONFLICTVERSION
 # DIRINDEXES
 # DIRNAMES
 
@@ -776,11 +755,6 @@ end
 # FILEVERIFYFLAGS
 # FSCONTEXTS
 
-# OBSOLETEFLAGS
-# OBSOLETENAME
-# OBSOLETENEVRS
-# OBSOLETES
-# OBSOLETEVERSION
 # OLDFILENAMES
 
 # ORDERFLAGS
@@ -807,18 +781,6 @@ end
 # POLICYNAMES
 # POLICYTYPES
 # POLICYTYPESINDEXES
-
-# PROVIDEFLAGS
-# PROVIDENAME
-# PROVIDENEVRS
-# PROVIDES
-# PROVIDEVERSION
-
-# REQUIREFLAGS
-# REQUIRENAME
-# REQUIRENEVRS
-# REQUIRES
-# REQUIREVERSION
 
 # SOURCE
 # SOURCEPACKAGE
