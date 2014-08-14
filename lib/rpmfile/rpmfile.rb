@@ -314,8 +314,33 @@ module RPM
     #
     # NOPATCH
     # NOSOURCE
-    # NVR
-    # NVRA
+
+    # Public: Return package name-version-release from rpm file.
+    #
+    # Examples
+    #
+    #   nvr()
+    #   # => "tar-1.26-31.fc20"
+    #
+    # Returns name-version-release String.
+    def nvr
+      @nvr ||= read_tag('NVR')
+    end
+
+    # Public: Return package name-version-release.arch from rpm file.
+    #
+    # Examples
+    #
+    #   nvra()
+    #   # => "tar-1.26-31.fc20.armv7hl"
+    #
+    # Returns name-version-release.arch String.
+    def nvra
+      @nvra ||= read_tag('NVRA')
+    end
+
+    # TODO:
+    #
     # O
 
     # Public: Return package OPTFLAGS from rpm file.
@@ -342,9 +367,20 @@ module RPM
       @packager ||= read_tag('PACKAGER')
     end
 
-    # TODO:
+    # Public: Return platform from rpm file.
     #
-    # PLATFORM
+    # Examples
+    #
+    #   platform()
+    #   # => "x86_64-redhat-linux-gnu"
+    #
+    #   platform()
+    #   # => "armv7hl-redhat-linux-gnueabi"
+    #
+    # Returns platform String.
+    def platform
+      @platform ||= read_tag('PLATFORM') unless source
+    end
 
     # TODO:
     #
@@ -391,6 +427,7 @@ module RPM
     end
 
     # TODO:
+    #
     # RECONTEXTS
 
     # Public: Return package release from rpm file.
@@ -669,12 +706,34 @@ module RPM
       read_array(queryformat)
     end
 
+    # Public: Return spec file name from source rpm.
+    #
+    # Examples
+    #
+    #   specfilename()
+    #   # => "tar.spec"
+    #
+    #   specfilename()
+    #   # => nil
+    #
+    # Returns specfilename String or nil.
     def specfilename
-      @specfilename ||= fileflags_with_filenames.reject! {|line| line[0] == '0'}[0][1]
+      @specfilename ||= fileflags_with_filenames.reject! {|line| line[0] == '0'}[0][1] if source
     end
 
+    # Public: Return content of spec file from source rpm.
+    #
+    # Examples
+    #
+    #   specfile()
+    #   # => "%define glibcsrcdir glibc-2.18\n%define glibcversion 2.18\n..."
+    #
+    #   specfile()
+    #   # => nil
+    #
+    # Returns content of spec file as String or nil.
     def specfile
-      @specfile ||= extract_file(specfilename)
+      @specfile ||= extract_file(specfilename) if source
     end
 
     def extract_file(filename)
