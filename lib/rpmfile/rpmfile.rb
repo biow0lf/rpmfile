@@ -139,7 +139,21 @@ module RPM
     # DISTTAG
     # DISTURL
     # DSAHEADER
-    # E
+
+    # Public: Return package epoch from rpm file. Alias for epoch().
+    #
+    # Examples
+    #
+    #   epoch()
+    #   # => nil
+    #
+    #   epoch()
+    #   # => 2
+    #
+    # Returns package epoch Integer or nil if epoch is empty.
+    def e
+      epoch
+    end
 
     # Public: Return package epoch from rpm file.
     #
@@ -159,7 +173,24 @@ module RPM
     # TODO:
     #
     # EPOCHNUM
-    # EVR
+
+    # Public: Return package epoch:version-release from rpm file.
+    #
+    # Examples
+    #
+    #   evr()
+    #   # => "2:1.26-31.fc20"
+    #
+    #   evr()
+    #   # => "4.2.47-3.fc20"
+    #
+    # Returns package Epoch-Version-Release String.
+    def evr
+      @evr ||= read_tag('EVR')
+    end
+
+    # TODO:
+    #
     # EXCLUDEARCH
     # EXCLUDEOS
     # EXCLUSIVEARCH
@@ -212,7 +243,24 @@ module RPM
     # LONGFILESIZES
     # LONGSIGSIZE
     # LONGSIZE
-    # N
+
+    # Public: Return package name from rpm file. Alias for name().
+    #
+    # Examples
+    #
+    #   n()
+    #   # => "glibc"
+    #
+    #   n()
+    #   # => "bash"
+    #
+    #   n()
+    #   # => "tar"
+    #
+    # Returns package name String.
+    def n
+      name
+    end
 
     # Public: Return package name from rpm file.
     #
@@ -232,10 +280,38 @@ module RPM
       @name ||= read_tag('NAME')
     end
 
+    # Public: Return package name-epoch:version-release from rpm file.
+    #
+    # Examples
+    #
+    #   nevr()
+    #   # => "tar-2:1.26-31.fc20"
+    #
+    #   nevr()
+    #   # => "bash-4.2.47-3.fc20"
+    #
+    # Returns name-epoch:version-release as String.
+    def nevr
+      @nevr ||= read_tag('NEVR')
+    end
+
+    # Public: Return package name-epoch:version-release.arch from rpm file.
+    #
+    # Examples
+    #
+    #   nevra()
+    #   # => "tar-2:1.26-31.fc20.armv7hl"
+    #
+    #   nevra()
+    #   # => "bash-4.2.47-3.fc20.armv7hl"
+    #
+    # Returns name-epoch:version-release.arch as String.
+    def nevra
+      @nevra ||= read_tag('NEVRA')
+    end
+
     # TODO:
     #
-    # NEVR
-    # NEVRA
     # NOPATCH
     # NOSOURCE
     # NVR
@@ -295,7 +371,26 @@ module RPM
     # TODO:
     #
     # PUBKEYS
-    # R
+
+    # Public: Return package release from rpm file. Alias for release().
+    #
+    # Examples
+    #
+    #   r()
+    #   # => "13.fc20"
+    #
+    #   r()
+    #   # => "3.fc20"
+    #
+    #   r()
+    #   # => "31.fc20"
+    #
+    # Returns package release String.
+    def r
+      release
+    end
+
+    # TODO:
     # RECONTEXTS
 
     # Public: Return package release from rpm file.
@@ -385,9 +480,26 @@ module RPM
       @url ||= read_tag('URL')
     end
 
+    # Public: Return package version from rpm file. Alias for version().
+    #
+    # Examples
+    #
+    #   v()
+    #   # => "2.18"
+    #
+    #   v()
+    #   # => "4.2.47"
+    #
+    #   v()
+    #   # => "1.26"
+    #
+    # Returns package version String.
+    def v
+      version
+    end
+
     # TODO:
     #
-    # V
     # VCS
 
     # Public: Return package vendor from rpm file.
@@ -593,7 +705,10 @@ module RPM
           array = read_array(queryformat)
           output = []
           array.each do |record|
-            output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+            output << { name: record[0],
+                        deptype: record[1],
+                        depflags: record[2],
+                        version: record[3] }
           end
           output
         end
@@ -607,7 +722,10 @@ module RPM
           array = read_array(queryformat)
           output = []
           array.each do |record|
-            output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+            output << { name: record[0],
+                        deptype: record[1],
+                        depflags: record[2],
+                        version: record[3] }
           end
           output
         end
@@ -621,7 +739,10 @@ module RPM
           array = read_array(queryformat)
           output = []
           array.each do |record|
-            output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+            output << { name: record[0],
+                        deptype: record[1],
+                        depflags: record[2],
+                        version: record[3] }
           end
           output
         end
@@ -635,7 +756,10 @@ module RPM
           array = read_array(queryformat)
           output = []
           array.each do |record|
-            output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+            output << { name: record[0],
+                        deptype: record[1],
+                        depflags: record[2],
+                        version: record[3] }
           end
           output
         end
@@ -649,7 +773,10 @@ module RPM
           array = read_array(queryformat)
           output = []
           array.each do |record|
-            output << { :name => record[0], :deptype => record[1], :depflags => record[2], :version => record[3] }
+            output << { name: record[0],
+                        deptype: record[1],
+                        depflags: record[2],
+                        version: record[3] }
           end
           output
         end
@@ -665,11 +792,28 @@ module RPM
         output = []
         while !raw.empty?
           record = raw.slice!(0..2)
-          output << { :changelogtime => Time.at(record[0].to_i),
-                      :changelogname => record[1],
-                      :changelogtext => record[2] }
+          output << { changelogtime: Time.at(record[0].to_i),
+                      changelogname: record[1],
+                      changelogtext: record[2] }
         end
         output
+      end
+    end
+
+    def self.check_md5(file)
+      process = ChildProcess.build('rpm', '-K', file)
+      process.environment['LANG'] = 'C'
+      process.io.stdout = Tempfile.new('child-output')
+      process.start
+      process.wait
+      process.io.stdout.rewind
+      content = process.io.stdout.read
+      process.io.stdout.close
+      process.io.stdout.unlink
+      if !content.empty? && content.chop.split(': ').last == 'sha1 md5 OK'
+        true
+      else
+        false
       end
     end
 
@@ -696,19 +840,6 @@ module RPM
     #     patch.save!
     #   end
     # end
-
-    # class Rpm
-    #   def self.check_md5(file)
-    #     output = `export LANG=C && rpm -K --nogpg #{file}`
-    #     if !output.empty? && output.chop.split(': ').last == 'md5 OK'
-    #       true
-    #     else
-    #       false
-    #     end
-    #   end
-    # end
-    #
-    # RPM = Rpm
 
     # def self.import(branch, file, srpm)
     #   files = `rpmquery --qf '[%{BASENAMES}\t%{FILESIZES}\n]' -p #{file}`
