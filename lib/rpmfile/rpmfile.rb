@@ -651,6 +651,7 @@ module RPM
       content = nil if content == '(none)'
       content = nil if content == ''
       output = []
+      return unless content
       content.split("\n").each do |line|
         output << line.split(' ')
       end
@@ -750,6 +751,7 @@ module RPM
         queryformat = '[%{PROVIDENAME} %{PROVIDEFLAGS:deptype} %{PROVIDEFLAGS:depflags} %{PROVIDEVERSION}\n]'
         array = read_array(queryformat)
         output = []
+        return unless array
         array.each do |record|
           output << { name: record[0],
                       deptype: record[1],
@@ -766,6 +768,7 @@ module RPM
         queryformat = '[%{REQUIRENAME} %{REQUIREFLAGS:deptype} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]'
         array = read_array(queryformat)
         output = []
+        return unless array
         array.each do |record|
           output << { name: record[0],
                       deptype: record[1],
@@ -782,6 +785,7 @@ module RPM
         queryformat = '[%{CONFLICTNAME} %{CONFLICTFLAGS:deptype} %{CONFLICTFLAGS:depflags} %{CONFLICTVERSION}\n]'
         array = read_array(queryformat)
         output = []
+        return unless array
         array.each do |record|
           output << { name: record[0],
                       deptype: record[1],
@@ -798,6 +802,7 @@ module RPM
         queryformat = '[%{OBSOLETENAME} %{OBSOLETEFLAGS:deptype} %{OBSOLETEFLAGS:depflags} %{OBSOLETEVERSION}\n]'
         array = read_array(queryformat)
         output = []
+        return unless array
         array.each do |record|
           output << { name: record[0],
                       deptype: record[1],
