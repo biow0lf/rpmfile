@@ -149,11 +149,11 @@ module RPM
     #   # => nil
     #
     #   epoch()
-    #   # => "2"
+    #   # => 2
     #
-    # Returns package epoch String or nil if epoch is empty.
+    # Returns package epoch Integer or nil if epoch is empty.
     def epoch
-      @epoch ||= read_tag('EPOCH')
+      @epoch ||= read_tag('EPOCH').to_i
     end
 
     # TODO:
