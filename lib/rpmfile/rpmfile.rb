@@ -729,87 +729,82 @@ module RPM
     end
 
     def build_requires
-      if source
-        @build_requires ||= begin
-          queryformat = '[%{REQUIRENAME} %{REQUIREFLAGS:deptype} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]'
-          array = read_array(queryformat)
-          output = []
-          array.each do |record|
-            output << { name: record[0],
-                        deptype: record[1],
-                        depflags: record[2],
-                        version: record[3] }
-          end
-          output
+      return unless source
+      @build_requires ||= begin
+        queryformat = '[%{REQUIRENAME} %{REQUIREFLAGS:deptype} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]'
+        array = read_array(queryformat)
+        output = []
+        array.each do |record|
+          output << { name: record[0],
+                      deptype: record[1],
+                      depflags: record[2],
+                      version: record[3] }
         end
+        output
       end
     end
 
     def provides
-      unless source
-        @provides ||= begin
-          queryformat = '[%{PROVIDENAME} %{PROVIDEFLAGS:deptype} %{PROVIDEFLAGS:depflags} %{PROVIDEVERSION}\n]'
-          array = read_array(queryformat)
-          output = []
-          array.each do |record|
-            output << { name: record[0],
-                        deptype: record[1],
-                        depflags: record[2],
-                        version: record[3] }
-          end
-          output
+      return if source
+      @provides ||= begin
+        queryformat = '[%{PROVIDENAME} %{PROVIDEFLAGS:deptype} %{PROVIDEFLAGS:depflags} %{PROVIDEVERSION}\n]'
+        array = read_array(queryformat)
+        output = []
+        array.each do |record|
+          output << { name: record[0],
+                      deptype: record[1],
+                      depflags: record[2],
+                      version: record[3] }
         end
+        output
       end
     end
 
     def requires
-      unless source
-        @requires ||= begin
-          queryformat = '[%{REQUIRENAME} %{REQUIREFLAGS:deptype} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]'
-          array = read_array(queryformat)
-          output = []
-          array.each do |record|
-            output << { name: record[0],
-                        deptype: record[1],
-                        depflags: record[2],
-                        version: record[3] }
-          end
-          output
+      return if source
+      @requires ||= begin
+        queryformat = '[%{REQUIRENAME} %{REQUIREFLAGS:deptype} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]'
+        array = read_array(queryformat)
+        output = []
+        array.each do |record|
+          output << { name: record[0],
+                      deptype: record[1],
+                      depflags: record[2],
+                      version: record[3] }
         end
+        output
       end
     end
 
     def conflicts
-      unless source
-        @conflicts ||= begin
-          queryformat = '[%{CONFLICTNAME} %{CONFLICTFLAGS:deptype} %{CONFLICTFLAGS:depflags} %{CONFLICTVERSION}\n]'
-          array = read_array(queryformat)
-          output = []
-          array.each do |record|
-            output << { name: record[0],
-                        deptype: record[1],
-                        depflags: record[2],
-                        version: record[3] }
-          end
-          output
+      return if source
+      @conflicts ||= begin
+        queryformat = '[%{CONFLICTNAME} %{CONFLICTFLAGS:deptype} %{CONFLICTFLAGS:depflags} %{CONFLICTVERSION}\n]'
+        array = read_array(queryformat)
+        output = []
+        array.each do |record|
+          output << { name: record[0],
+                      deptype: record[1],
+                      depflags: record[2],
+                      version: record[3] }
         end
+        output
       end
     end
 
     def obsoletes
-      unless source
-        @obsoletes ||= begin
-          queryformat = '[%{OBSOLETENAME} %{OBSOLETEFLAGS:deptype} %{OBSOLETEFLAGS:depflags} %{OBSOLETEVERSION}\n]'
-          array = read_array(queryformat)
-          output = []
-          array.each do |record|
-            output << { name: record[0],
-                        deptype: record[1],
-                        depflags: record[2],
-                        version: record[3] }
-          end
-          output
+      return if source
+      @obsoletes ||= begin
+        queryformat = '[%{OBSOLETENAME} %{OBSOLETEFLAGS:deptype} %{OBSOLETEFLAGS:depflags} %{OBSOLETEVERSION}\n]'
+        array = read_array(queryformat)
+        output = []
+        array.each do |record|
+          output << { name: record[0],
+                      deptype: record[1],
+                      depflags: record[2],
+                      version: record[3] }
         end
+        output
       end
     end
 
