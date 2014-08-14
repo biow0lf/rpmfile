@@ -3,8 +3,17 @@ require 'tempfile'
 
 module RPM
   class File
-    attr_reader :file, :source
+    # Public: Returns the String rpm file name.
+    attr_reader :file
 
+    # Public: Returns Boolean value of rpm type.
+    #         Source or not.
+    attr_reader :source
+
+    # Public: Initialize RPM File.
+    #
+    # name - A String with file name.
+    # source - A Boolean value. Source rpm or not (default: false).
     def initialize(file, source = false)
       @file = file
       @source = source
