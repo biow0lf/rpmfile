@@ -616,9 +616,9 @@ module RPM
     def filename
       @filename ||= begin
         if source
-          "#{ self.name }-#{ self.version }-#{ self.release }.src.rpm"
+          "#{ name }-#{ version }-#{ release }.src.rpm"
         else
-          "#{ self.name }-#{ self.version }-#{ self.release }.#{ self.arch }.rpm"
+          "#{ name }-#{ version }-#{ release }.#{ arch }.rpm"
         end
       end
     end
@@ -727,7 +727,7 @@ module RPM
     #
     # Returns specfilename String or nil.
     def specfilename
-      @specfilename ||= fileflags_with_filenames.reject! {|line| line[0] == '0'}[0][1] if source
+      @specfilename ||= fileflags_with_filenames.reject! { |line| line[0] == '0' }[0][1] if source
     end
 
     # Public: Return content of spec file from source rpm.
