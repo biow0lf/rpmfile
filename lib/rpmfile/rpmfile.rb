@@ -43,9 +43,7 @@ module RPM
       @arch ||= read_tag('ARCH') unless source
     end
 
-    # TODO:
-    #
-    # ARCHIVESIZE
+    # TODO: ARCHIVESIZE
 
     # Public: Return buildhost from rpm file.
     #
@@ -71,9 +69,7 @@ module RPM
       @buildtime ||= Time.at(read_tag('BUILDTIME').to_i)
     end
 
-    # TODO:
-    #
-    # C
+    # TODO: C
 
     # Public: Return last changelog name from rpm file.
     #
@@ -111,13 +107,11 @@ module RPM
       @changelogtime ||= Time.at(read_tag('CHANGELOGTIME').to_i)
     end
 
-    # TODO:
-    #
-    # CLASSDICT
-    # COLLECTIONS
-    # COOKIE
-    # DBINSTANCE
-    # DEPENDSDICT
+    # TODO: CLASSDICT
+    #   COLLECTIONS
+    #   COOKIE
+    #   DBINSTANCE
+    #   DEPENDSDICT
 
     # Public: Return package description from rpm file.
     #
@@ -143,11 +137,9 @@ module RPM
       @distribution ||= read_tag('DISTRIBUTION')
     end
 
-    # TODO:
-    #
-    # DISTTAG
-    # DISTURL
-    # DSAHEADER
+    # TODO: DISTTAG
+    #   DISTURL
+    #   DSAHEADER
 
     # Public: Return package epoch from rpm file. Alias for epoch().
     #
@@ -179,9 +171,7 @@ module RPM
       @epoch ||= read_tag('EPOCH').to_i
     end
 
-    # TODO:
-    #
-    # EPOCHNUM
+    # TODO: EPOCHNUM
 
     # Public: Return package epoch:version-release from rpm file.
     #
@@ -198,13 +188,11 @@ module RPM
       @evr ||= read_tag('EVR')
     end
 
-    # TODO:
-    #
-    # EXCLUDEARCH
-    # EXCLUDEOS
-    # EXCLUSIVEARCH
-    # EXCLUSIVEOS
-    # GIF
+    # TODO: EXCLUDEARCH
+    #   EXCLUDEOS
+    #   EXCLUSIVEARCH
+    #   EXCLUSIVEOS
+    #   GIF
 
     # Public: Return package group from rpm file.
     #
@@ -218,21 +206,19 @@ module RPM
       @group ||= read_tag('GROUP')
     end
 
-    # TODO:
-    #
-    # HDRID
-    # HEADERCOLOR
-    # HEADERI18NTABLE
-    # HEADERIMAGE
-    # HEADERIMMUTABLE
-    # HEADERREGIONS
-    # HEADERSIGNATURES
-    # ICON
-    # INSTALLCOLOR
-    # INSTALLTID
-    # INSTALLTIME
-    # INSTFILENAMES
-    # INSTPREFIXES
+    # TODO: HDRID
+    #   HEADERCOLOR
+    #   HEADERI18NTABLE
+    #   HEADERIMAGE
+    #   HEADERIMMUTABLE
+    #   HEADERREGIONS
+    #   HEADERSIGNATURES
+    #   ICON
+    #   INSTALLCOLOR
+    #   INSTALLTID
+    #   INSTALLTIME
+    #   INSTFILENAMES
+    #   INSTPREFIXES
 
     # Public: Return package license from rpm file.
     #
@@ -246,12 +232,10 @@ module RPM
       @license ||= read_tag('LICENSE')
     end
 
-    # TODO:
-    #
-    # LONGARCHIVESIZE
-    # LONGFILESIZES
-    # LONGSIGSIZE
-    # LONGSIZE
+    # TODO: LONGARCHIVESIZE
+    #   LONGFILESIZES
+    #   LONGSIGSIZE
+    #   LONGSIZE
 
     # Public: Return package name from rpm file. Alias for name().
     #
@@ -319,10 +303,8 @@ module RPM
       @nevra ||= read_tag('NEVRA')
     end
 
-    # TODO:
-    #
-    # NOPATCH
-    # NOSOURCE
+    # TODO: NOPATCH
+    #   NOSOURCE
 
     # Public: Return package name-version-release from rpm file.
     #
@@ -348,9 +330,7 @@ module RPM
       @nvra ||= read_tag('NVRA')
     end
 
-    # TODO:
-    #
-    # O
+    # TODO: O
 
     # Public: Return package OPTFLAGS from rpm file.
     #
@@ -391,31 +371,27 @@ module RPM
       @platform ||= read_tag('PLATFORM') unless source
     end
 
-    # TODO:
-    #
-    # POSTIN
-    # POSTINFLAGS
-    # POSTINPROG
-    # POSTTRANS
-    # POSTTRANSFLAGS
-    # POSTTRANSPROG
-    # POSTUN
-    # POSTUNFLAGS
-    # POSTUNPROG
-    # PREFIXES
-    # PREIN
-    # PREINFLAGS
-    # PREINPROG
-    # PRETRANS
-    # PRETRANSFLAGS
-    # PRETRANSPROG
-    # PREUN
-    # PREUNFLAGS
-    # PREUNPROG
+    # TODO: POSTIN
+    #   POSTINFLAGS
+    #   POSTINPROG
+    #   POSTTRANS
+    #   POSTTRANSFLAGS
+    #   POSTTRANSPROG
+    #   POSTUN
+    #   POSTUNFLAGS
+    #   POSTUNPROG
+    #   PREFIXES
+    #   PREIN
+    #   PREINFLAGS
+    #   PREINPROG
+    #   PRETRANS
+    #   PRETRANSFLAGS
+    #   PRETRANSPROG
+    #   PREUN
+    #   PREUNFLAGS
+    #   PREUNPROG
 
-    # TODO:
-    #
-    # PUBKEYS
+    # TODO: PUBKEYS
 
     # Public: Return package release from rpm file. Alias for release().
     #
@@ -435,9 +411,7 @@ module RPM
       release
     end
 
-    # TODO:
-    #
-    # RECONTEXTS
+    # TODO: RECONTEXTS
 
     # Public: Return package release from rpm file.
     #
@@ -457,20 +431,16 @@ module RPM
       @release ||= read_tag('RELEASE')
     end
 
-    # TODO:
-    #
-    # REMOVETID
+    # TODO: REMOVETID
 
-    # TODO:
-    #
-    # RPMVERSION
-    # RSAHEADER
-    # SHA1HEADER
-    # SIGGPG
-    # SIGMD5
-    # SIGPGP
-    # SIGSIZE
-    # SIZE
+    # TODO: RPMVERSION
+    #   RSAHEADER
+    #   SHA1HEADER
+    #   SIGGPG
+    #   SIGMD5
+    #   SIGPGP
+    #   SIGSIZE
+    #   SIZE
 
     # Public: Return source rpm filename from rpm file.
     #
@@ -499,17 +469,15 @@ module RPM
       @summary ||= read_tag('SUMMARY')
     end
 
-    # TODO:
-    #
-    # TRIGGERCONDS
-    # TRIGGERFLAGS
-    # TRIGGERINDEX
-    # TRIGGERNAME
-    # TRIGGERSCRIPTFLAGS
-    # TRIGGERSCRIPTPROG
-    # TRIGGERSCRIPTS
-    # TRIGGERTYPE
-    # TRIGGERVERSION
+    # TODO: TRIGGERCONDS
+    #   TRIGGERFLAGS
+    #   TRIGGERINDEX
+    #   TRIGGERNAME
+    #   TRIGGERSCRIPTFLAGS
+    #   TRIGGERSCRIPTPROG
+    #   TRIGGERSCRIPTS
+    #   TRIGGERTYPE
+    #   TRIGGERVERSION
 
     # Public: Return package url from rpm file.
     #
@@ -544,9 +512,7 @@ module RPM
       version
     end
 
-    # TODO:
-    #
-    # VCS
+    # TODO: VCS
 
     # Public: Return package vendor from rpm file.
     #
@@ -560,12 +526,10 @@ module RPM
       @vendor ||= read_tag('VENDOR')
     end
 
-    # TODO:
-    #
-    # VERBOSE
-    # VERIFYSCRIPT
-    # VERIFYSCRIPTFLAGS
-    # VERIFYSCRIPTPROG
+    # TODO: VERBOSE
+    #   VERIFYSCRIPT
+    #   VERIFYSCRIPTFLAGS
+    #   VERIFYSCRIPTPROG
 
     # Public: Return package version from rpm file.
     #
@@ -585,9 +549,7 @@ module RPM
       @version ||= read_tag('VERSION')
     end
 
-    # TODO:
-    #
-    # XPM
+    # TODO: XPM
 
     # Public: Return package serial from rpm file. Fresh fedora 20+
     #   (maybe older) rpm dont know about 'SERIAL'.
