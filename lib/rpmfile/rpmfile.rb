@@ -3,16 +3,15 @@ require 'tempfile'
 
 module RPM
   class File
-    # Public: Returns the String rpm file name.
+    # Public: Returns rpm file name as String.
     attr_reader :file
 
-    # Public: Returns Boolean value of rpm type.
-    #         Source or not.
+    # Public: Returns Boolean value of rpm type. Source or not.
     attr_reader :source
 
     # Public: Initialize RPM File.
     #
-    # name - A String with file name.
+    # name   - A String with file name.
     # source - A Boolean value. Source rpm or not (default: false).
     def initialize(file, source = false)
       @file = file
@@ -52,7 +51,7 @@ module RPM
     #   buildhost()
     #   # => "arm02-builder05.arm.fedoraproject.org"
     #
-    # Returns package buildhost String.
+    # Returns package buildhost as String.
     def buildhost
       @buildhost ||= read_tag('BUILDHOST')
     end
@@ -118,7 +117,7 @@ module RPM
     #   description()
     #   # => "The glibc package contains standard libraries which are..."
     #
-    # Returns package description String.
+    # Returns package description as String.
     def description
       @description ||= read_tag('DESCRIPTION')
     end
@@ -130,7 +129,7 @@ module RPM
     #   distribution()
     #   # => "Fedora Project"
     #
-    # Returns package distribution String.
+    # Returns package distribution as String.
     def distribution
       @distribution ||= read_tag('DISTRIBUTION')
     end
@@ -149,7 +148,7 @@ module RPM
     #   e()
     #   # => 2
     #
-    # Returns package epoch Integer or nil if epoch is empty.
+    # Returns package epoch as Integer or nil if epoch is empty.
     def e
       epoch
     end
@@ -164,7 +163,7 @@ module RPM
     #   epoch()
     #   # => 2
     #
-    # Returns package epoch Integer or nil if epoch is empty.
+    # Returns package epoch as Integer or nil if epoch is empty.
     def epoch
       @epoch ||= read_tag('EPOCH').to_i
     end
@@ -181,7 +180,7 @@ module RPM
     #   evr()
     #   # => "4.2.47-3.fc20"
     #
-    # Returns package Epoch-Version-Release String.
+    # Returns package epoch-version-release as String.
     def evr
       @evr ||= read_tag('EVR')
     end
@@ -199,7 +198,7 @@ module RPM
     #   group()
     #   # => "System Environment/Libraries"
     #
-    # Returns package group String.
+    # Returns package group as String.
     def group
       @group ||= read_tag('GROUP')
     end
@@ -225,7 +224,7 @@ module RPM
     #   license()
     #   # => "LGPLv2+ and LGPLv2+ with exceptions and GPLv2+"
     #
-    # Returns package license String.
+    # Returns package license as String.
     def license
       @license ||= read_tag('LICENSE')
     end
@@ -248,7 +247,7 @@ module RPM
     #   n()
     #   # => "tar"
     #
-    # Returns package name String.
+    # Returns package name as String.
     def n
       name
     end
@@ -266,7 +265,7 @@ module RPM
     #   name()
     #   # => "tar"
     #
-    # Returns package name String.
+    # Returns package name as String.
     def name
       @name ||= read_tag('NAME')
     end
@@ -311,7 +310,7 @@ module RPM
     #   nvr()
     #   # => "tar-1.26-31.fc20"
     #
-    # Returns name-version-release String.
+    # Returns name-version-release as String.
     def nvr
       @nvr ||= read_tag('NVR')
     end
@@ -323,7 +322,7 @@ module RPM
     #   nvra()
     #   # => "tar-1.26-31.fc20.armv7hl"
     #
-    # Returns name-version-release.arch String.
+    # Returns name-version-release.arch as String.
     def nvra
       @nvra ||= read_tag('NVRA')
     end
@@ -347,7 +346,7 @@ module RPM
     #   packager()
     #   # => "Fedora Project"
     #
-    # Returns packager info String.
+    # Returns packager info as String.
     def packager
       @packager ||= read_tag('PACKAGER')
     end
@@ -362,7 +361,7 @@ module RPM
     #   platform()
     #   # => "armv7hl-redhat-linux-gnueabi"
     #
-    # Returns platform String.
+    # Returns platform as String.
     def platform
       @platform ||= read_tag('PLATFORM') unless source
     end
@@ -402,7 +401,7 @@ module RPM
     #   r()
     #   # => "31.fc20"
     #
-    # Returns package release String.
+    # Returns package release as String.
     def r
       release
     end
@@ -422,7 +421,7 @@ module RPM
     #   release()
     #   # => "31.fc20"
     #
-    # Returns package release String.
+    # Returns package release as String.
     def release
       @release ||= read_tag('RELEASE')
     end
@@ -460,7 +459,7 @@ module RPM
     #   summary()
     #   # => "The GNU libc libraries"
     #
-    # Returns package summary String.
+    # Returns package summary as String.
     def summary
       @summary ||= read_tag('SUMMARY')
     end
@@ -485,7 +484,7 @@ module RPM
     #   url()
     #   # => nil
     #
-    # Returns package url String or nil if package url is empty.
+    # Returns package url as String or nil if package url is empty.
     def url
       @url ||= read_tag('URL')
     end
@@ -503,7 +502,7 @@ module RPM
     #   v()
     #   # => "1.26"
     #
-    # Returns package version String.
+    # Returns package version as String.
     def v
       version
     end
@@ -517,7 +516,7 @@ module RPM
     #   vendor()
     #   # => "Fedora Project"
     #
-    # Returns package vendor String.
+    # Returns package vendor as String.
     def vendor
       @vendor ||= read_tag('VENDOR')
     end
@@ -540,7 +539,7 @@ module RPM
     #   version()
     #   # => "1.26"
     #
-    # Returns package version String.
+    # Returns package version as String.
     def version
       @version ||= read_tag('VERSION')
     end
@@ -555,7 +554,7 @@ module RPM
     #   serial()
     #   # => nil
     #
-    # Returns package serial String or nil if serial is empty.
+    # Returns package serial as String or nil if serial is empty.
     def serial
       @serial ||= read_tag('SERIAL')
     end
@@ -570,7 +569,7 @@ module RPM
     #   filename()
     #   # => "glibc-2.18-13.fc20.i686.rpm"
     #
-    # Returns package filename String.
+    # Returns package filename as String.
     def filename
       @filename ||= begin
         if source
@@ -618,7 +617,7 @@ module RPM
     #   read_tag('RELEASE')
     #   # => "13.fc20"
     #
-    # Returns tag content String.
+    # Returns tag content as String.
     def read_tag(tag)
       process = ChildProcess.build('rpm', '-qp', "--queryformat=%{#{ tag }}", file)
       process.environment['LANG'] = 'C'
@@ -684,7 +683,7 @@ module RPM
     #   specfilename()
     #   # => nil
     #
-    # Returns specfilename String or nil.
+    # Returns specfilename as String or nil.
     def specfilename
       @specfilename ||= fileflags_with_filenames.reject! { |line| line[0] == '0' }[0][1] if source
     end
