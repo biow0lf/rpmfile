@@ -820,7 +820,7 @@ module RPM
         # raw.force_encoding('binary')
         raw = raw.split("\n**********\n")
         output = []
-        while !raw.empty?
+        until raw.empty?
           record = raw.slice!(0..2)
           output << { changelogtime: Time.at(record[0].to_i),
                       changelogname: record[1],
