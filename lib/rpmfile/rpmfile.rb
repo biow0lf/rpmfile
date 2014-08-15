@@ -69,8 +69,6 @@ module RPM
       @buildtime ||= Time.at(read_tag('BUILDTIME').to_i)
     end
 
-    # TODO: C
-
     # Public: Return last changelog name from rpm file.
     #
     # Examples
@@ -145,10 +143,10 @@ module RPM
     #
     # Examples
     #
-    #   epoch()
+    #   e()
     #   # => nil
     #
-    #   epoch()
+    #   e()
     #   # => 2
     #
     # Returns package epoch Integer or nil if epoch is empty.
@@ -329,8 +327,6 @@ module RPM
     def nvra
       @nvra ||= read_tag('NVRA')
     end
-
-    # TODO: O
 
     # Public: Return package OPTFLAGS from rpm file.
     #
@@ -762,6 +758,18 @@ module RPM
       end
     end
 
+    # Public: Short version of provides(). Return only names.
+    #
+    # Examples
+    #
+    #   p()
+    #   # => ["/bin/gtar", "/bin/tar", "bundled(gnulib)", "tar", "tar(x86-64)"]
+    #
+    # Returns Array of provides.
+    def p
+      @p ||= provides.map { |provide| provide[:name] }
+    end
+
     def requires
       return if source
       @requires ||= begin
@@ -796,6 +804,18 @@ module RPM
       end
     end
 
+    # Public: Short version of conflicts(). Return only names.
+    #
+    # Examples
+    #
+    #   c()
+    #   # => ["kernel", "binutils", "prelink"]
+    #
+    # Returns Array of conflicts.
+    def c
+      @c ||= conflicts.map { |conflict| conflict[:name] }
+    end
+
     def obsoletes
       return if source
       @obsoletes ||= begin
@@ -811,6 +831,18 @@ module RPM
         end
         output
       end
+    end
+
+    # Public: Short version of obsoletes(). Return only names.
+    #
+    # Examples
+    #
+    #   o()
+    #   # => ["glibc-profile", "nss_db"]
+    #
+    # Returns Array of obsoletes.
+    def o
+      @o ||= obsoletes.map { |obsolete| obsolete[:name] }
     end
 
     def changelogs
@@ -940,7 +972,6 @@ end
 # ORIGDIRNAMES
 # ORIGFILENAMES
 # OS
-# P
 
 # PATCH
 # PATCHESFLAGS
