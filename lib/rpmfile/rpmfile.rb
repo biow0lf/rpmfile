@@ -165,7 +165,11 @@ module RPM
     #
     # Returns package epoch as Integer or nil if epoch is empty.
     def epoch
-      @epoch ||= read_tag('EPOCH').to_i
+      @epoch ||= begin
+        tmp = read_tag('EPOCH')
+        tmp = tmp.to_i if tmp
+        tmp
+      end
     end
 
     # TODO: EPOCHNUM
@@ -187,8 +191,16 @@ module RPM
 
     # TODO: EXCLUDEARCH
     #   EXCLUDEOS
-    #   EXCLUSIVEARCH
-    #   EXCLUSIVEOS
+
+    # def exclusivearch
+    #   @exclusivearch ||= begin
+    #     content = read_raw('[%{EXCLUSIVEARCH}\n]')
+    #     content = content.split("\n") if content
+    #     content
+    #   end
+    # end
+
+    # TODO: EXCLUSIVEOS
     #   GIF
 
     # Public: Return package group from rpm file.
@@ -295,9 +307,12 @@ module RPM
     #   nevra()
     #   # => "bash-4.2.47-3.fc20.armv7hl"
     #
-    # Returns name-epoch:version-release.arch as String.
+    #   nevra()
+    #   # => nil
+    #
+    # Returns name-epoch:version-release.arch as String or nil if package is source rpm.
     def nevra
-      @nevra ||= read_tag('NEVRA')
+      @nevra ||= read_tag('NEVRA') unless source
     end
 
     # TODO: NOPATCH
@@ -322,9 +337,12 @@ module RPM
     #   nvra()
     #   # => "tar-1.26-31.fc20.armv7hl"
     #
-    # Returns name-version-release.arch as String.
+    #   nvra()
+    #   # => nil
+    #
+    # Returns name-version-release.arch as String or nil if source rpm.
     def nvra
-      @nvra ||= read_tag('NVRA')
+      @nvra ||= read_tag('NVRA') unless source
     end
 
     # Public: Return package OPTFLAGS from rpm file.
@@ -334,9 +352,12 @@ module RPM
     #   optflags()
     #   # => "-O2 -g -pipe -Wall ..."
     #
-    # Returns package OPTFLAGS as String or nil if OPTFLAGS is empty.
+    #   optflags()
+    #   # => nil
+    #
+    # Returns package OPTFLAGS as String or nil if source rpm.
     def optflags
-      @optflags ||= read_tag('OPTFLAGS')
+      @optflags ||= read_tag('OPTFLAGS') unless source
     end
 
     # Public: Return packager from rpm file.
@@ -361,7 +382,7 @@ module RPM
     #   platform()
     #   # => "armv7hl-redhat-linux-gnueabi"
     #
-    # Returns platform as String.
+    # Returns platform as String or nil if source rpm.
     def platform
       @platform ||= read_tag('PLATFORM') unless source
     end
@@ -449,7 +470,7 @@ module RPM
     #
     # Returns source rpm filename as String or nil if rpm is source rpm.
     def sourcerpm
-      @sourcerpm ||= read_tag('SOURCERPM')
+      @sourcerpm ||= read_tag('SOURCERPM') unless source
     end
 
     # Public: Return package summary from rpm file.
@@ -764,12 +785,15 @@ module RPM
     #   p()
     #   # => ["/bin/gtar", "/bin/tar", "bundled(gnulib)", "tar", "tar(x86-64)"]
     #
-    # Returns Array of provides.
+    # Returns Array of provides or nil for source rpm.
     def p
+      return if source
       @p ||= provides.map { |provide| provide[:name] }
     end
 
     def requires
+      # Requires and BuildRequires are the same for source rpm,
+      # but we will treat them separately
       return if source
       @requires ||= begin
         queryformat = '[%{REQUIRENAME} %{REQUIREFLAGS:deptype} %{REQUIREFLAGS:depflags} %{REQUIREVERSION}\n]'
@@ -812,6 +836,7 @@ module RPM
     #
     # Returns Array of conflicts.
     def c
+      return if source
       @c ||= conflicts.map { |conflict| conflict[:name] }
     end
 
@@ -841,6 +866,7 @@ module RPM
     #
     # Returns Array of obsoletes.
     def o
+      return if source
       @o ||= obsoletes.map { |obsolete| obsolete[:name] }
     end
 
