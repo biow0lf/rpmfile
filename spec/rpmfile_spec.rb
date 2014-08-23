@@ -112,6 +112,91 @@ describe 'RPM::File' do
     expect(rpm.evr).to eq('2014f-1.fc20')
   end
 
+  it 'should return package group from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.group).to eq('Applications/Archiving')
+  end
+
+  it 'should return package group from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.group).to eq('Applications/Archiving')
+  end
+
+  it 'should return package license from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.license).to eq('GPLv3+')
+  end
+
+  it 'should return package license from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.license).to eq('GPLv3+')
+  end
+
+  it 'should return package name from source rpm (n() -> alias for name())' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.n).to eq('tar')
+  end
+
+  it 'should return package name from binary rpm (n() -> alias for name())' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.n).to eq('tar')
+  end
+
+  it 'should return package name from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.name).to eq('tar')
+  end
+
+  it 'should return package name from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.name).to eq('tar')
+  end
+
+  it 'should return package nevr (name-epoch:version-release) from source rpm (with epoch)' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.nevr).to eq('tar-2:1.26-31.fc20')
+  end
+
+  it 'should return package nevr (name-epoch:version-release) from binary rpm (with epoch)' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.nevr).to eq('tar-2:1.26-31.fc20')
+  end
+
+  it 'should return package nevr (name-epoch:version-release) from source rpm (without epoch)' do
+    rpm = RPM::File.new('./spec/data/tzdata-2014f-1.fc20.src.rpm', true)
+    expect(rpm.nevr).to eq('tzdata-2014f-1.fc20')
+  end
+
+  it 'should return package nevr (name-epoch:version-release) from binary rpm (without epoch)' do
+    rpm = RPM::File.new('./spec/data/tzdata-2014f-1.fc20.noarch.rpm', false)
+    expect(rpm.nevr).to eq('tzdata-2014f-1.fc20')
+  end
+
+  it 'should return package nevra as nil from source rpm (source rpm doesn\'t have arch)' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.nevra).to eq(nil)
+  end
+
+  it 'should return package nevra (name-epoch:version-release) from binary rpm (with epoch)' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.nevra).to eq('tar-2:1.26-31.fc20.i686')
+  end
+
+  it 'should return package nevra (name-epoch:version-release) from binary rpm (without epoch)' do
+    rpm = RPM::File.new('./spec/data/tzdata-2014f-1.fc20.noarch.rpm', false)
+    expect(rpm.nevra).to eq('tzdata-2014f-1.fc20.noarch')
+  end
+
+  it 'should return package nvr (name-version-release) from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.nvr).to eq('tar-1.26-31.fc20')
+  end
+
+  it 'should return package nvr (name-version-release) from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.nvr).to eq('tar-1.26-31.fc20')
+  end
+
 
   # it 'should read tag from any rpm' do
   #   rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
