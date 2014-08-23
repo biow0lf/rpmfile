@@ -471,4 +471,34 @@ describe 'RPM::File' do
                                 { name: 'rpmlib(PayloadIsXz)', deptype: 'rpmlib', depflags: '<=', version: '5.2-1' }])
   end
 
+  it 'should return nil for conflicts from source rpm' do
+    rpm = RPM::File.new('./spec/data/tzdata-2014f-1.fc20.src.rpm', true)
+    expect(rpm.conflicts).to eq(nil)
+  end
+
+  it 'should return conflicts from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tzdata-2014f-1.fc20.noarch.rpm', false)
+    expect(rpm.conflicts).to eq([{ name: 'glibc-common', deptype: 'manual', depflags: '<=', version: '2.3.2-63' }])
+  end
+
+  it 'should return nil for short version of conflicts (c()) for source rpm' do
+    rpm = RPM::File.new('./spec/data/tzdata-2014f-1.fc20.src.rpm', true)
+    expect(rpm.c).to eq(nil)
+  end
+
+  it 'should return short version conflicts (c()) from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tzdata-2014f-1.fc20.noarch.rpm', false)
+    expect(rpm.c).to eq(['glibc-common'])
+  end
+
+  it 'should return nil for obsoletes from source rpm' do
+    rpm = RPM::File.new('./spec/data/iptraf-ng-1.1.4-7.fc20.src.rpm', true)
+    expect(rpm.obsoletes).to eq(nil)
+  end
+
+  it 'should return obsoletes from binary rpm' do
+    rpm = RPM::File.new('./spec/data/iptraf-ng-1.1.4-7.fc20.i686.rpm', false)
+    expect(rpm.obsoletes).to eq([{ name: 'iptraf', deptype: 'manual', depflags: '<', version: '3.1' }])
+  end
+
 end
