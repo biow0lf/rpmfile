@@ -237,6 +237,97 @@ describe 'RPM::File' do
     expect(rpm.platform).to eq('i686-redhat-linux-gnu')
   end
 
+  it 'should return package release from source rpm (r() -> alias for release()' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.r).to eq('31.fc20')
+  end
+
+  it 'should return package release from binary rpm (r() -> alias for release()' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.r).to eq('31.fc20')
+  end
+
+  it 'should return package release from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.release).to eq('31.fc20')
+  end
+
+  it 'should return package release from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.release).to eq('31.fc20')
+  end
+
+  it 'should return package sourcerpm from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.sourcerpm).to eq(nil)
+  end
+
+  it 'should return package sourcerpm from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.sourcerpm).to eq('tar-1.26-31.fc20.src.rpm')
+  end
+
+  it 'should return package summary from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.summary).to eq('A GNU file archiving program')
+  end
+
+  it 'should return package summary from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.summary).to eq('A GNU file archiving program')
+  end
+
+  it 'should return package url from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.url).to eq('http://www.gnu.org/software/tar/')
+  end
+
+  it 'should return package url from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.url).to eq('http://www.gnu.org/software/tar/')
+  end
+
+  it 'should return package url as nil from source rpm if url is empty' do
+    rpm = RPM::File.new('./spec/data/basesystem-10.0-9.fc20.src.rpm', true)
+    expect(rpm.url).to eq(nil)
+  end
+
+  it 'should return package url as nil from binary rpm if url is empty' do
+    rpm = RPM::File.new('./spec/data/basesystem-10.0-9.fc20.noarch.rpm', false)
+    expect(rpm.url).to eq(nil)
+  end
+
+  it 'should return package version from source rpm (v() -> alias for version()' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.v).to eq('1.26')
+  end
+
+  it 'should return package version from binary rpm (v() -> alias for version()' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.v).to eq('1.26')
+  end
+
+  it 'should return package vendor from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.vendor).to eq('Fedora Project')
+  end
+
+  it 'should return package vendor from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.vendor).to eq('Fedora Project')
+  end
+
+  it 'should return package version from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.version).to eq('1.26')
+  end
+
+  it 'should return package version from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.version).to eq('1.26')
+  end
+
+
 
   # it 'should read tag from any rpm' do
   #   rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
