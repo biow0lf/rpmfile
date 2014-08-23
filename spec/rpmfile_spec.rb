@@ -327,12 +327,116 @@ describe 'RPM::File' do
     expect(rpm.version).to eq('1.26')
   end
 
+  # TODO: maybe #serial can be dropped
+  it 'should return package serial from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.serial).to eq(nil)
+  end
 
+  # TODO: maybe #serial can be dropped
+  it 'should return package serial from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.serial).to eq(nil)
+  end
 
-  # it 'should read tag from any rpm' do
-  #   rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
-  #   expect(rpm.read_tag('ARCH')).to eq('i686')
-  # end
+  it 'should return package filename for source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.filename).to eq('tar-1.26-31.fc20.src.rpm')
+  end
+
+  it 'should return package filename for binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.filename).to eq('tar-1.26-31.fc20.i686.rpm')
+  end
+
+  it 'should return file md5 sum of rpm file' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.md5).to eq('7b7d2a5d2d404861647420218d854243')
+  end
+
+  it 'should return file size of rpm file' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.filesize).to eq(1914673)
+  end
+
+  it 'should read any single tag from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.read_tag('NAME')).to eq('tar')
+  end
+
+  pending 'it should fix empty readed tag with nil'
+  pending 'it should fix "(none)" from rpm to empty string'
+  pending 'read_array(queryformat)'
+  pending 'read_raw(queryformat)'
+  pending 'fileflags_with_filenames'
+
+  it 'should return spec file name from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.specfilename).to eq('tar.spec')
+  end
+
+  it 'should return nil for spec file name from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.specfilename).to eq(nil)
+  end
+
+  it 'should extract spec file from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.specfile.split("\n")[0]).to eq('%if %{?WITH_SELINUX:0}%{!?WITH_SELINUX:1}')
+  end
+
+  it 'should return nil for spec file content from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.specfile).to eq(nil)
+  end
+
+  pending 'extract_file(filename)'
+
+  it 'should return build requires for source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.build_requires).to eq([{ name: 'autoconf', deptype: 'manual', depflags: nil, version: nil },
+                                      { name: 'automake', deptype: 'manual', depflags: nil, version: nil },
+                                      { name: 'texinfo', deptype: 'manual', depflags: nil, version: nil },
+                                      { name: 'gettext', deptype: 'manual', depflags: nil, version: nil },
+                                      { name: 'libacl-devel', deptype: 'manual', depflags: nil, version: nil },
+                                      { name: 'rsh', deptype: 'manual', depflags: nil, version: nil },
+                                      { name: 'attr', deptype: 'manual', depflags: nil, version: nil },
+                                      { name: 'acl', deptype: 'manual', depflags: nil, version: nil },
+                                      { name: 'policycoreutils', deptype: 'manual', depflags: nil, version: nil },
+                                      { name: 'libselinux-devel', deptype: 'manual', depflags: nil, version: nil },
+                                      { name: 'rpmlib(FileDigests)', deptype: 'rpmlib', depflags: '<=', version: '4.6.0-1' },
+                                      { name: 'rpmlib(CompressedFileNames)', deptype: 'rpmlib', depflags: '<=', version: '3.0.4-1' }])
+  end
+
+  it 'should return nil for build requires from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.build_requires).to eq(nil)
+  end
+
+  it 'should return nil for provides from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.provides).to eq(nil)
+  end
+
+  it 'should return provides from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.provides).to eq([{ name: '/bin/gtar', deptype: 'manual', depflags: nil, version: nil },
+                                { name: '/bin/tar', deptype: 'manual', depflags: nil, version: nil },
+                                { name: 'bundled(gnulib)', deptype: 'manual', depflags: nil, version: nil },
+                                { name: 'tar', deptype: 'manual', depflags: '=', version: '2:1.26-31.fc20' },
+                                { name: 'tar(x86-32)', deptype: 'manual', depflags: '=', version: '2:1.26-31.fc20' }])
+  end
+
+  it 'should return nil for short version of provides (p()) for source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.p).to eq(nil)
+  end
+
+  it 'should return short version provides (p()) from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.p).to eq(['/bin/gtar', '/bin/tar', 'bundled(gnulib)', 'tar', 'tar(x86-32)'])
+  end
+
 
   # tar-1.26-31.fc20.armv7hl.rpm
   # tar-1.26-31.fc20.i686.rpm
