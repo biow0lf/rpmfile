@@ -501,4 +501,16 @@ describe 'RPM::File' do
     expect(rpm.obsoletes).to eq([{ name: 'iptraf', deptype: 'manual', depflags: '<', version: '3.1' }])
   end
 
+  it 'should return nil for short version of obsoletes (o()) for source rpm' do
+    rpm = RPM::File.new('./spec/data/iptraf-ng-1.1.4-7.fc20.src.rpm', true)
+    expect(rpm.o).to eq(nil)
+  end
+
+  it 'should return short version obsoletes (o()) from binary rpm' do
+    rpm = RPM::File.new('./spec/data/iptraf-ng-1.1.4-7.fc20.i686.rpm', false)
+    expect(rpm.o).to eq(['iptraf'])
+  end
+
+  pending 'changelogs'
+  pending 'self.check_md5(file)'
 end
