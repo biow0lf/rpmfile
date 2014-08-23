@@ -9,7 +9,9 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-    gem 'rpmfile'
+```ruby
+gem 'rpmfile'
+```
 
 And then execute:
 
