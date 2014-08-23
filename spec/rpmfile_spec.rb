@@ -437,19 +437,38 @@ describe 'RPM::File' do
     expect(rpm.p).to eq(['/bin/gtar', '/bin/tar', 'bundled(gnulib)', 'tar', 'tar(x86-32)'])
   end
 
+  it 'should return nil for requires from source rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+    expect(rpm.requires).to eq(nil)
+  end
 
-  # tar-1.26-31.fc20.armv7hl.rpm
-  # tar-1.26-31.fc20.i686.rpm
-  # tar-1.26-31.fc20.src.rpm
-  # tar-1.26-31.fc20.x86_64.rpm
-  # tar-debuginfo-1.26-31.fc20.armv7hl.rpm
-  # tar-debuginfo-1.26-31.fc20.i686.rpm
-  # tar-debuginfo-1.26-31.fc20.x86_64.rpm
-  #
-
-  # it 'should return name from source rpm' do
-  #   rpm = RPM::File.new('data/tar-1.26-31.fc20.src.rpm', true)
-  #   expect(rpm.name).to eq('tar')
-  # end
+  it 'should return requires from binary rpm' do
+    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+    expect(rpm.requires).to eq([{ name: '/bin/sh', deptype: 'post,interp', depflags: nil, version: nil },
+                                { name: '/bin/sh', deptype: 'preun,interp', depflags: nil, version: nil },
+                                { name: '/sbin/install-info', deptype: 'post', depflags: nil, version: nil },
+                                { name: '/sbin/install-info', deptype: 'preun', depflags: nil, version: nil },
+                                { name: 'libacl.so.1', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libacl.so.1(ACL_1.0)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libc.so.6', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libc.so.6(GLIBC_2.0)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libc.so.6(GLIBC_2.1)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libc.so.6(GLIBC_2.1.1)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libc.so.6(GLIBC_2.17)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libc.so.6(GLIBC_2.2)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libc.so.6(GLIBC_2.2.3)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libc.so.6(GLIBC_2.3)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libc.so.6(GLIBC_2.3.4)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libc.so.6(GLIBC_2.4)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libc.so.6(GLIBC_2.6)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libc.so.6(GLIBC_2.7)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libc.so.6(GLIBC_2.8)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'libselinux.so.1', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'rpmlib(CompressedFileNames)', deptype: 'rpmlib', depflags: '<=', version: '3.0.4-1' },
+                                { name: 'rpmlib(FileDigests)', deptype: 'rpmlib', depflags: '<=', version: '4.6.0-1'},
+                                { name: 'rpmlib(PayloadFilesHavePrefix)', deptype: 'rpmlib', depflags: '<=', version: '4.0-1' },
+                                { name: 'rtld(GNU_HASH)', deptype: 'auto', depflags: nil, version: nil },
+                                { name: 'rpmlib(PayloadIsXz)', deptype: 'rpmlib', depflags: '<=', version: '5.2-1' }])
+  end
 
 end
