@@ -3,6 +3,7 @@
 [![Code Climate](https://codeclimate.com/github/biow0lf/rpmfile.png)](https://codeclimate.com/github/biow0lf/rpmfile)
 [![Test Coverage](https://codeclimate.com/github/biow0lf/rpmfile/badges/coverage.svg)](https://codeclimate.com/github/biow0lf/rpmfile)
 [![Inline docs](http://inch-ci.org/github/biow0lf/rpmfile.png?branch=master)](http://inch-ci.org/github/biow0lf/rpmfile)
+[![security](https://hakiri.io/github/biow0lf/rpmfile/master.svg)](https://hakiri.io/github/biow0lf/rpmfile/master)
 
 TODO: Write a gem description
 
