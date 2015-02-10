@@ -47,8 +47,6 @@ module RPM
       @arch ||= read_tag('ARCH') unless source
     end
 
-    # TODO: ARCHIVESIZE
-
     # Public: Return buildhost from rpm file.
     #
     # Examples
@@ -109,18 +107,6 @@ module RPM
       @changelogtime ||= Time.at(read_tag('CHANGELOGTIME').to_i)
     end
 
-    # TODO: CLASSDICT
-    #   COLLECTIONS
-    #   COOKIE
-    #   DBINSTANCE
-    #   DEPENDSDICT
-
-    # TODO: DISTTAG
-    #   DISTURL
-    #   DSAHEADER
-
-    # TODO: EPOCHNUM
-
     # Public: Return package epoch:version-release from rpm file.
     #
     # Examples
@@ -148,26 +134,6 @@ module RPM
     # end
 
     # TODO: EXCLUSIVEOS
-    #   GIF
-
-    # TODO: HDRID
-    #   HEADERCOLOR
-    #   HEADERI18NTABLE
-    #   HEADERIMAGE
-    #   HEADERIMMUTABLE
-    #   HEADERREGIONS
-    #   HEADERSIGNATURES
-    #   ICON
-    #   INSTALLCOLOR
-    #   INSTALLTID
-    #   INSTALLTIME
-    #   INSTFILENAMES
-    #   INSTPREFIXES
-
-    # TODO: LONGARCHIVESIZE
-    #   LONGFILESIZES
-    #   LONGSIGSIZE
-    #   LONGSIZE
 
     # Public: Return package name-epoch:version-release from rpm file.
     #
@@ -201,9 +167,6 @@ module RPM
     def nevra
       @nevra ||= read_tag('NEVRA') unless source
     end
-
-    # TODO: NOPATCH
-    #   NOSOURCE
 
     # Public: Return package name-version-release from rpm file.
     #
@@ -262,41 +225,6 @@ module RPM
       @platform ||= read_tag('PLATFORM') unless source
     end
 
-    # TODO: POSTIN
-    #   POSTINFLAGS
-    #   POSTINPROG
-    #   POSTTRANS
-    #   POSTTRANSFLAGS
-    #   POSTTRANSPROG
-    #   POSTUN
-    #   POSTUNFLAGS
-    #   POSTUNPROG
-    #   PREFIXES
-    #   PREIN
-    #   PREINFLAGS
-    #   PREINPROG
-    #   PRETRANS
-    #   PRETRANSFLAGS
-    #   PRETRANSPROG
-    #   PREUN
-    #   PREUNFLAGS
-    #   PREUNPROG
-
-    # TODO: PUBKEYS
-
-    # TODO: RECONTEXTS
-
-    # TODO: REMOVETID
-
-    # TODO: RPMVERSION
-    #   RSAHEADER
-    #   SHA1HEADER
-    #   SIGGPG
-    #   SIGMD5
-    #   SIGPGP
-    #   SIGSIZE
-    #   SIZE
-
     # Public: Return source rpm filename from rpm file.
     #
     # Examples
@@ -311,25 +239,6 @@ module RPM
     def sourcerpm
       @sourcerpm ||= read_tag('SOURCERPM') unless source
     end
-
-    # TODO: TRIGGERCONDS
-    #   TRIGGERFLAGS
-    #   TRIGGERINDEX
-    #   TRIGGERNAME
-    #   TRIGGERSCRIPTFLAGS
-    #   TRIGGERSCRIPTPROG
-    #   TRIGGERSCRIPTS
-    #   TRIGGERTYPE
-    #   TRIGGERVERSION
-
-    # TODO: VCS
-
-    # TODO: VERBOSE
-    #   VERIFYSCRIPT
-    #   VERIFYSCRIPTFLAGS
-    #   VERIFYSCRIPTPROG
-
-    # TODO: XPM
 
     # Public: Return package serial from rpm file. Fresh fedora 20+
     #   (maybe older) rpm dont know about 'SERIAL'.
@@ -718,65 +627,3 @@ module RPM
 
   end
 end
-
-# BASENAMES
-# DIRINDEXES
-# DIRNAMES
-
-# FILECAPS
-# FILECLASS
-# FILECOLORS
-# FILECONTEXTS
-# FILEDEPENDSN
-# FILEDEPENDSX
-# FILEDEVICES
-# FILEDIGESTALGO
-# FILEDIGESTS
-# FILEFLAGS
-# FILEGROUPNAME
-# FILEINODES
-# FILELANGS
-# FILELINKTOS
-# FILEMD5S
-# FILEMODES
-# FILEMTIMES
-# FILENAMES
-# FILENLINKS
-# FILEPROVIDE
-# FILERDEVS
-# FILEREQUIRE
-# FILESIZES
-# FILESTATES
-# FILEUSERNAME
-# FILEVERIFYFLAGS
-# FSCONTEXTS
-
-# OLDFILENAMES
-
-# ORDERFLAGS
-# ORDERNAME
-# ORDERVERSION
-# ORIGBASENAMES
-# ORIGDIRINDEXES
-# ORIGDIRNAMES
-# ORIGFILENAMES
-# OS
-
-# PATCH
-# PATCHESFLAGS
-# PATCHESNAME
-# PATCHESVERSION
-# PAYLOADCOMPRESSOR
-# PAYLOADFLAGS
-# PAYLOADFORMAT
-# PKGID
-
-# POLICIES
-# POLICYFLAGS
-# POLICYNAMES
-# POLICYTYPES
-# POLICYTYPESINDEXES
-
-# SOURCE
-# SOURCEPACKAGE
-# SOURCEPKGID
