@@ -171,6 +171,33 @@ module RPM
         @license ||= read_tag('LICENSE')
       end
 
+      # Public: Return package url from rpm file.
+      #
+      # Examples
+      #
+      #   url()
+      #   # => "http://www.gnu.org/software/glibc/"
+      #
+      #   url()
+      #   # => nil
+      #
+      # Returns package url as String or nil if package url is empty.
+      def url
+        @url ||= read_tag('URL')
+      end
+
+      # Public: Return packager from rpm file.
+      #
+      # Examples
+      #
+      #   packager()
+      #   # => "Fedora Project"
+      #
+      # Returns packager info as String.
+      def packager
+        @packager ||= read_tag('PACKAGER')
+      end
+
     end
   end
 end

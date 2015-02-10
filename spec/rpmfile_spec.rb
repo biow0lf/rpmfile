@@ -129,6 +129,40 @@ describe 'RPM::File' do
       end
     end
 
+    context 'URL' do
+      it 'should return package url from source rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.url).to eq('http://www.gnu.org/software/tar/')
+      end
+
+      it 'should return package url from binary rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+        expect(rpm.url).to eq('http://www.gnu.org/software/tar/')
+      end
+
+      it 'should return package url as nil from source rpm if url is empty' do
+        rpm = RPM::File.new('./spec/data/basesystem-10.0-9.fc20.src.rpm', true)
+        expect(rpm.url).to eq(nil)
+      end
+
+      it 'should return package url as nil from binary rpm if url is empty' do
+        rpm = RPM::File.new('./spec/data/basesystem-10.0-9.fc20.noarch.rpm', false)
+        expect(rpm.url).to eq(nil)
+      end
+    end
+
+    context 'PACKAGER' do
+      it 'should return package packager from source rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.packager).to eq('Fedora Project')
+      end
+
+      it 'should return package packager from binary rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+        expect(rpm.packager).to eq('Fedora Project')
+      end
+    end
+
   end
 
 =begin
@@ -292,16 +326,6 @@ describe 'RPM::File' do
     expect(rpm.optflags).to eq('-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches  -m32 -march=i686 -mtune=atom -fasynchronous-unwind-tables')
   end
 
-  it 'should return package packager from source rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.packager).to eq('Fedora Project')
-  end
-
-  it 'should return package packager from binary rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
-    expect(rpm.packager).to eq('Fedora Project')
-  end
-
   it 'should return package platform from source rpm as nil (source rpm doesn\'t have platform)' do
     rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
     expect(rpm.platform).to eq(nil)
@@ -320,26 +344,6 @@ describe 'RPM::File' do
   it 'should return package sourcerpm from binary rpm' do
     rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
     expect(rpm.sourcerpm).to eq('tar-1.26-31.fc20.src.rpm')
-  end
-
-  it 'should return package url from source rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.url).to eq('http://www.gnu.org/software/tar/')
-  end
-
-  it 'should return package url from binary rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
-    expect(rpm.url).to eq('http://www.gnu.org/software/tar/')
-  end
-
-  it 'should return package url as nil from source rpm if url is empty' do
-    rpm = RPM::File.new('./spec/data/basesystem-10.0-9.fc20.src.rpm', true)
-    expect(rpm.url).to eq(nil)
-  end
-
-  it 'should return package url as nil from binary rpm if url is empty' do
-    rpm = RPM::File.new('./spec/data/basesystem-10.0-9.fc20.noarch.rpm', false)
-    expect(rpm.url).to eq(nil)
   end
 
   it 'should return package vendor from source rpm' do
