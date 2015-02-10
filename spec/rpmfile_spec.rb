@@ -163,6 +163,42 @@ describe 'RPM::File' do
       end
     end
 
+    context 'VENDOR' do
+      it 'should return package vendor from source rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.vendor).to eq('Fedora Project')
+      end
+
+      it 'should return package vendor from binary rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+        expect(rpm.vendor).to eq('Fedora Project')
+      end
+    end
+
+    context 'DISTRIBUTION' do
+      it 'should return package distribution from source rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.distribution).to eq('Fedora Project')
+      end
+
+      it 'should return package distribution from binary rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', true)
+        expect(rpm.distribution).to eq('Fedora Project')
+      end
+    end
+
+    context 'DESCRIPTION' do
+      it 'should return package description from source rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.description.split("\n")[0]).to start_with('The GNU tar')
+      end
+
+      it 'should return package description from binary rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+        expect(rpm.description.split("\n")[0]).to start_with('The GNU tar')
+      end
+    end
+
   end
 
 =begin
@@ -234,21 +270,6 @@ describe 'RPM::File' do
   it 'should return changelogtime as instance of Time' do
     rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
     expect(rpm.changelogtime).to be_an_instance_of(Time)
-  end
-
-  it 'should return package description from source rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.description.split("\n")[0]).to eq('The GNU tar program saves many files together in one archive and can')
-  end
-
-  it 'should return package description from binary rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
-    expect(rpm.description.split("\n")[0]).to eq('The GNU tar program saves many files together in one archive and can')
-  end
-
-  it 'should return package distribution from rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.distribution).to eq('Fedora Project')
   end
 
   pending 'should return package evr (epoch:version-release) from rpm (with epoch)' do
@@ -344,16 +365,6 @@ describe 'RPM::File' do
   it 'should return package sourcerpm from binary rpm' do
     rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
     expect(rpm.sourcerpm).to eq('tar-1.26-31.fc20.src.rpm')
-  end
-
-  it 'should return package vendor from source rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.vendor).to eq('Fedora Project')
-  end
-
-  it 'should return package vendor from binary rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
-    expect(rpm.vendor).to eq('Fedora Project')
   end
 
   # TODO: maybe #serial can be dropped

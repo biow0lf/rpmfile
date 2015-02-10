@@ -198,6 +198,42 @@ module RPM
         @packager ||= read_tag('PACKAGER')
       end
 
+      # Public: Return package vendor from rpm file.
+      #
+      # Examples
+      #
+      #   vendor()
+      #   # => "Fedora Project"
+      #
+      # Returns package vendor as String.
+      def vendor
+        @vendor ||= read_tag('VENDOR')
+      end
+
+      # Public: Return package distribution from rpm file.
+      #
+      # Examples
+      #
+      #   distribution()
+      #   # => "Fedora Project"
+      #
+      # Returns package distribution as String.
+      def distribution
+        @distribution ||= read_tag('DISTRIBUTION')
+      end
+
+      # Public: Return package description from rpm file.
+      #
+      # Examples
+      #
+      #   description()
+      #   # => "The glibc package contains standard libraries which are..."
+      #
+      # Returns package description as String.
+      def description
+        @description ||= read_tag('DESCRIPTION')
+      end
+
     end
   end
 end
