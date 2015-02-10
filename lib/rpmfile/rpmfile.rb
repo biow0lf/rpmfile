@@ -2,10 +2,12 @@ require 'childprocess'
 require 'tempfile'
 
 require_relative './basic'
+require_relative './changelog'
 
 module RPM
   class File
     include Basic
+    include Changelog
 
     # Public: Returns rpm file name as String.
     attr_reader :file
@@ -21,42 +23,6 @@ module RPM
     def initialize(file, source = false, rpm = 'rpm5')
       @file = file
       @source = source
-    end
-
-    # Public: Return last changelog name from rpm file.
-    #
-    # Examples
-    #
-    #   changelogname()
-    #   # => "Siddhesh Poyarekar <siddhesh@redhat.com> - 2.18-13"
-    #
-    # Returns last changelog name as String.
-    def changelogname
-      @changelogname ||= read_tag('CHANGELOGNAME')
-    end
-
-    # Public: Return last changelog text from rpm file.
-    #
-    # Examples
-    #
-    #   changelogtext()
-    #   # => "- Add pointer mangling support for ARM (#1019452)."
-    #
-    # Returns last changelog text as String.
-    def changelogtext
-      @changelogtext ||= read_tag('CHANGELOGTEXT')
-    end
-
-    # Public: Return last changelog time from rpm file.
-    #
-    # Examples
-    #
-    #   changelogtime()
-    #   # => 2014-02-06 14:00:00 +0200
-    #
-    # Returns last changelog time as Time.
-    def changelogtime
-      @changelogtime ||= Time.at(read_tag('CHANGELOGTIME').to_i)
     end
 
     # Public: Return package epoch:version-release from rpm file.
@@ -175,21 +141,6 @@ module RPM
     # Returns platform as String or nil if source rpm.
     def platform
       @platform ||= read_tag('PLATFORM') unless source
-    end
-
-    # Public: Return source rpm filename from rpm file.
-    #
-    # Examples
-    #
-    #   sourcerpm()
-    #   # => nil
-    #
-    #   sourcerpm()
-    #   # => "glibc-2.18-13.fc20.src.rpm"
-    #
-    # Returns source rpm filename as String or nil if rpm is source rpm.
-    def sourcerpm
-      @sourcerpm ||= read_tag('SOURCERPM') unless source
     end
 
     # Public: Return package serial from rpm file. Fresh fedora 20+

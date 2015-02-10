@@ -282,6 +282,21 @@ module RPM
         @buildtime ||= Time.at(read_tag('BUILDTIME').to_i)
       end
 
+      # Public: Return source rpm filename from rpm file.
+      #
+      # Examples
+      #
+      #   sourcerpm()
+      #   # => nil
+      #
+      #   sourcerpm()
+      #   # => "glibc-2.18-13.fc20.src.rpm"
+      #
+      # Returns source rpm filename as String or nil if rpm is source rpm.
+      def sourcerpm
+        @sourcerpm ||= read_tag('SOURCERPM') unless source
+      end
+
     end
   end
 end

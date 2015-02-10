@@ -250,5 +250,17 @@ describe 'RPM::File' do
       end
     end
 
+    context 'SOURCERPM' do
+      it 'should return package sourcerpm from source rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.sourcerpm).to eq(nil)
+      end
+
+      it 'should return package sourcerpm from binary rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+        expect(rpm.sourcerpm).to eq('tar-1.26-31.fc20.src.rpm')
+      end
+    end
+
   end
 end

@@ -8,26 +8,6 @@ describe 'RPM::File' do
 
 =begin
 
-  it 'should return changelogname from rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.changelogname).to eq('Pavel Raiskup <praiskup@redhat.com> - 1.26-31')
-  end
-
-  it 'should return changelogtext from rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.changelogtext).to eq("- document --exclude mistakes (#903666)\n- fix default ACLs propagation (#1082603)\n- infinite loop(s) in sparse-file handling (#1082608)\n- fix listing (and --verify) for big sparse files (#916995)\n- fix --list & --verify segfault (#986895)")
-  end
-
-  it 'should return changelogtime from rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.changelogtime).to eq(Time.parse('2014-04-01 15:00:00 +0300'))
-  end
-
-  it 'should return changelogtime as instance of Time' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.changelogtime).to be_an_instance_of(Time)
-  end
-
   pending 'should return package evr (epoch:version-release) from rpm (with epoch)' do
     rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
     expect(rpm.evr).to eq('2:1.26-31.fc20')
@@ -111,16 +91,6 @@ describe 'RPM::File' do
   it 'should return package platform from binary rpm' do
     rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
     expect(rpm.platform).to eq('i686-redhat-linux-gnu')
-  end
-
-  it 'should return package sourcerpm from source rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.sourcerpm).to eq(nil)
-  end
-
-  it 'should return package sourcerpm from binary rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
-    expect(rpm.sourcerpm).to eq('tar-1.26-31.fc20.src.rpm')
   end
 
   # TODO: maybe #serial can be dropped
