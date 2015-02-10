@@ -1,8 +1,12 @@
 require 'childprocess'
 require 'tempfile'
 
+require_relative './basic'
+
 module RPM
   class File
+    include Basic
+
     # Public: Returns rpm file name as String.
     attr_reader :file
 
@@ -13,7 +17,8 @@ module RPM
     #
     # name   - A String with file name.
     # source - A Boolean value. Source rpm or not (default: false).
-    def initialize(file, source = false)
+    # rpm    - RPM version (default: 'rpm5'). Variants: 'rpm5', 'fedora', 'altlinux'.
+    def initialize(file, source = false, rpm = 'rpm5')
       @file = file
       @source = source
     end
@@ -246,42 +251,6 @@ module RPM
     #   LONGSIGSIZE
     #   LONGSIZE
 
-    # Public: Return package name from rpm file. Alias for name().
-    #
-    # Examples
-    #
-    #   n()
-    #   # => "glibc"
-    #
-    #   n()
-    #   # => "bash"
-    #
-    #   n()
-    #   # => "tar"
-    #
-    # Returns package name as String.
-    def n
-      name
-    end
-
-    # Public: Return package name from rpm file.
-    #
-    # Examples
-    #
-    #   name()
-    #   # => "glibc"
-    #
-    #   name()
-    #   # => "bash"
-    #
-    #   name()
-    #   # => "tar"
-    #
-    # Returns package name as String.
-    def name
-      @name ||= read_tag('NAME')
-    end
-
     # Public: Return package name-epoch:version-release from rpm file.
     #
     # Examples
@@ -409,43 +378,7 @@ module RPM
 
     # TODO: PUBKEYS
 
-    # Public: Return package release from rpm file. Alias for release().
-    #
-    # Examples
-    #
-    #   r()
-    #   # => "13.fc20"
-    #
-    #   r()
-    #   # => "3.fc20"
-    #
-    #   r()
-    #   # => "31.fc20"
-    #
-    # Returns package release as String.
-    def r
-      release
-    end
-
     # TODO: RECONTEXTS
-
-    # Public: Return package release from rpm file.
-    #
-    # Examples
-    #
-    #   release()
-    #   # => "13.fc20"
-    #
-    #   release()
-    #   # => "3.fc20"
-    #
-    #   release()
-    #   # => "31.fc20"
-    #
-    # Returns package release as String.
-    def release
-      @release ||= read_tag('RELEASE')
-    end
 
     # TODO: REMOVETID
 
@@ -510,24 +443,6 @@ module RPM
       @url ||= read_tag('URL')
     end
 
-    # Public: Return package version from rpm file. Alias for version().
-    #
-    # Examples
-    #
-    #   v()
-    #   # => "2.18"
-    #
-    #   v()
-    #   # => "4.2.47"
-    #
-    #   v()
-    #   # => "1.26"
-    #
-    # Returns package version as String.
-    def v
-      version
-    end
-
     # TODO: VCS
 
     # Public: Return package vendor from rpm file.
@@ -546,24 +461,6 @@ module RPM
     #   VERIFYSCRIPT
     #   VERIFYSCRIPTFLAGS
     #   VERIFYSCRIPTPROG
-
-    # Public: Return package version from rpm file.
-    #
-    # Examples
-    #
-    #   version()
-    #   # => "2.18"
-    #
-    #   version()
-    #   # => "4.2.47"
-    #
-    #   version()
-    #   # => "1.26"
-    #
-    # Returns package version as String.
-    def version
-      @version ||= read_tag('VERSION')
-    end
 
     # TODO: XPM
 
