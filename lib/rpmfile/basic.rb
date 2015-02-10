@@ -234,6 +234,54 @@ module RPM
         @description ||= read_tag('DESCRIPTION')
       end
 
+      # Public: Return architecture from rpm file.
+      #
+      # Examples
+      #
+      #   arch()
+      #   # => "i686"
+      #
+      #   arch()
+      #   # => "x86_64"
+      #
+      #   arch()
+      #   # => "noarch"
+      #
+      #   arch()
+      #   # => "armv7hl"
+      #
+      #   arch()
+      #   # => nil
+      #
+      # Returns architecture of rpm file as String or nil if rpm is source rpm.
+      def arch
+        @arch ||= read_tag('ARCH') unless source
+      end
+
+      # Public: Return buildhost from rpm file.
+      #
+      # Examples
+      #
+      #   buildhost()
+      #   # => "arm02-builder05.arm.fedoraproject.org"
+      #
+      # Returns package buildhost as String.
+      def buildhost
+        @buildhost ||= read_tag('BUILDHOST')
+      end
+
+      # Public: Return package build time from rpm file.
+      #
+      # Examples
+      #
+      #   buildtime()
+      #   # => 2014-02-06 13:20:48 +0200
+      #
+      # Returns package build time as Time.
+      def buildtime
+        @buildtime ||= Time.at(read_tag('BUILDTIME').to_i)
+      end
+
     end
   end
 end

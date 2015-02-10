@@ -199,58 +199,60 @@ describe 'RPM::File' do
       end
     end
 
+    context 'ARCH' do
+      it 'should return arch from source rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.arch).to eq(nil)
+      end
+
+      it 'should return arch from binary rpm (i686)' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+        expect(rpm.arch).to eq('i686')
+      end
+
+      it 'should return arch from binary rpm (x86_64)' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.x86_64.rpm', false)
+        expect(rpm.arch).to eq('x86_64')
+      end
+
+      it 'should return arch from binary rpm (armv7hl)' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.armv7hl.rpm', false)
+        expect(rpm.arch).to eq('armv7hl')
+      end
+
+      it 'should return arch from binary rpm (noarch)' do
+        rpm = RPM::File.new('./spec/data/tzdata-2014f-1.fc20.noarch.rpm', false)
+        expect(rpm.arch).to eq('noarch')
+      end
+    end
+
+    context 'BUILDHOST' do
+      it 'should return buildhost from source rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.buildhost).to eq('arm04-builder07.arm.fedoraproject.org')
+      end
+
+      it 'should return buildhost from binary rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+        expect(rpm.buildhost).to eq('buildvm-05.phx2.fedoraproject.org')
+      end
+    end
+
+    context 'BUILDTIME' do
+      it 'should return buildtime from rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.buildtime).to eq(Time.parse('2014-04-01 23:38:32 +0300'))
+      end
+
+      it 'should return buildtime as instance of Time' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.buildtime).to be_an_instance_of(Time)
+      end
+    end
+
   end
 
 =begin
-
-  describe 'ARCH tag' do
-    it 'should return arch from source rpm' do
-      rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-      expect(rpm.arch).to eq(nil)
-    end
-
-    it 'should return arch from binary rpm (i686)' do
-      rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
-      expect(rpm.arch).to eq('i686')
-    end
-
-    it 'should return arch from binary rpm (x86_64)' do
-      rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.x86_64.rpm', false)
-      expect(rpm.arch).to eq('x86_64')
-    end
-
-    it 'should return arch from binary rpm (armv7hl)' do
-      rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.armv7hl.rpm', false)
-      expect(rpm.arch).to eq('armv7hl')
-    end
-
-    it 'should return arch from binary rpm (noarch)' do
-      rpm = RPM::File.new('./spec/data/tzdata-2014f-1.fc20.noarch.rpm', false)
-      expect(rpm.arch).to eq('noarch')
-    end
-  end
-
-  describe 'BUILDHOST tag' do
-    it 'should return buildhost from source rpm' do
-      rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-      expect(rpm.buildhost).to eq('arm04-builder07.arm.fedoraproject.org')
-    end
-
-    it 'should return buildhost from binary rpm' do
-      rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
-      expect(rpm.buildhost).to eq('buildvm-05.phx2.fedoraproject.org')
-    end
-  end
-
-  it 'should return buildtime from rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.buildtime).to eq(Time.parse('2014-04-01 23:38:32 +0300'))
-  end
-
-  it 'should return buildtime as instance of Time' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.buildtime).to be_an_instance_of(Time)
-  end
 
   it 'should return changelogname from rpm' do
     rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
