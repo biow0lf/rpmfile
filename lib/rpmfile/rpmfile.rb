@@ -143,40 +143,6 @@ module RPM
     #   DISTURL
     #   DSAHEADER
 
-    # Public: Return package epoch from rpm file. Alias for epoch().
-    #
-    # Examples
-    #
-    #   e()
-    #   # => nil
-    #
-    #   e()
-    #   # => 2
-    #
-    # Returns package epoch as Integer or nil if epoch is empty.
-    def e
-      epoch
-    end
-
-    # Public: Return package epoch from rpm file.
-    #
-    # Examples
-    #
-    #   epoch()
-    #   # => nil
-    #
-    #   epoch()
-    #   # => 2
-    #
-    # Returns package epoch as Integer or nil if epoch is empty.
-    def epoch
-      @epoch ||= begin
-        tmp = read_tag('EPOCH')
-        tmp = tmp.to_i if tmp
-        tmp
-      end
-    end
-
     # TODO: EPOCHNUM
 
     # Public: Return package epoch:version-release from rpm file.
@@ -208,18 +174,6 @@ module RPM
     # TODO: EXCLUSIVEOS
     #   GIF
 
-    # Public: Return package group from rpm file.
-    #
-    # Examples
-    #
-    #   group()
-    #   # => "System Environment/Libraries"
-    #
-    # Returns package group as String.
-    def group
-      @group ||= read_tag('GROUP')
-    end
-
     # TODO: HDRID
     #   HEADERCOLOR
     #   HEADERI18NTABLE
@@ -233,18 +187,6 @@ module RPM
     #   INSTALLTIME
     #   INSTFILENAMES
     #   INSTPREFIXES
-
-    # Public: Return package license from rpm file.
-    #
-    # Examples
-    #
-    #   license()
-    #   # => "LGPLv2+ and LGPLv2+ with exceptions and GPLv2+"
-    #
-    # Returns package license as String.
-    def license
-      @license ||= read_tag('LICENSE')
-    end
 
     # TODO: LONGARCHIVESIZE
     #   LONGFILESIZES
@@ -404,18 +346,6 @@ module RPM
     # Returns source rpm filename as String or nil if rpm is source rpm.
     def sourcerpm
       @sourcerpm ||= read_tag('SOURCERPM') unless source
-    end
-
-    # Public: Return package summary from rpm file.
-    #
-    # Examples
-    #
-    #   summary()
-    #   # => "The GNU libc libraries"
-    #
-    # Returns package summary as String.
-    def summary
-      @summary ||= read_tag('SUMMARY')
     end
 
     # TODO: TRIGGERCONDS

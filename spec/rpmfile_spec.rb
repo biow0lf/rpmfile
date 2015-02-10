@@ -3,7 +3,8 @@ require 'rpmfile'
 
 describe 'RPM::File' do
   describe 'Basic tags' do
-    describe 'NAME tag' do
+
+    context 'NAME' do
       it 'should return package name from source rpm' do
         rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
         expect(rpm.name).to eq('tar')
@@ -25,7 +26,7 @@ describe 'RPM::File' do
       end
     end
 
-    describe 'VERSION tag' do
+    context 'VERSION' do
       it 'should return package version from source rpm' do
         rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
         expect(rpm.version).to eq('1.26')
@@ -47,7 +48,7 @@ describe 'RPM::File' do
       end
     end
 
-    describe 'RELEASE tag' do
+    context 'RELEASE' do
       it 'should return package release from source rpm' do
         rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
         expect(rpm.release).to eq('31.fc20')
@@ -68,6 +69,66 @@ describe 'RPM::File' do
         expect(rpm.r).to eq('31.fc20')
       end
     end
+
+    context 'EPOCH' do
+      it 'should return package epoch from rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.epoch).to eq(2)
+      end
+
+      # TODO: WTF??
+      it 'should return package epoch as Fixnum from rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.epoch).to be_an_instance_of(Fixnum)
+      end
+
+      it 'should return package epoch as nil if epoch is empty' do
+        rpm = RPM::File.new('./spec/data/tzdata-2014f-1.fc20.src.rpm', true)
+        expect(rpm.epoch).to eq(nil)
+      end
+
+      it 'should return package epoch from rpm (e() -> alias for epoch())' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.e).to eq(2)
+      end
+    end
+
+    context 'SUMMARY' do
+      it 'should return package summary from source rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.summary).to eq('A GNU file archiving program')
+      end
+
+      it 'should return package summary from binary rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+        expect(rpm.summary).to eq('A GNU file archiving program')
+      end
+    end
+
+    context 'GROUP' do
+      it 'should return package group from source rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.group).to eq('Applications/Archiving')
+      end
+
+      it 'should return package group from binary rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+        expect(rpm.group).to eq('Applications/Archiving')
+      end
+    end
+
+    context 'LICENSE' do
+      it 'should return package license from source rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
+        expect(rpm.license).to eq('GPLv3+')
+      end
+
+      it 'should return package license from binary rpm' do
+        rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
+        expect(rpm.license).to eq('GPLv3+')
+      end
+    end
+
   end
 
 =begin
@@ -156,26 +217,6 @@ describe 'RPM::File' do
     expect(rpm.distribution).to eq('Fedora Project')
   end
 
-  it 'should return package epoch from rpm (e() -> alias for epoch())' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.e).to eq(2)
-  end
-
-  it 'should return package epoch from rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.epoch).to eq(2)
-  end
-
-  it 'should return package epoch as Fixnum from rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.epoch).to be_an_instance_of(Fixnum)
-  end
-
-  it 'should return package epoch as nil if epoch is empty' do
-    rpm = RPM::File.new('./spec/data/tzdata-2014f-1.fc20.src.rpm', true)
-    expect(rpm.epoch).to eq(nil)
-  end
-
   pending 'should return package evr (epoch:version-release) from rpm (with epoch)' do
     rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
     expect(rpm.evr).to eq('2:1.26-31.fc20')
@@ -184,26 +225,6 @@ describe 'RPM::File' do
   pending 'should return package evr (epoch:version-release) from rpm (without epoch)' do
     rpm = RPM::File.new('./spec/data/tzdata-2014f-1.fc20.src.rpm', true)
     expect(rpm.evr).to eq('2014f-1.fc20')
-  end
-
-  it 'should return package group from source rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.group).to eq('Applications/Archiving')
-  end
-
-  it 'should return package group from binary rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
-    expect(rpm.group).to eq('Applications/Archiving')
-  end
-
-  it 'should return package license from source rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.license).to eq('GPLv3+')
-  end
-
-  it 'should return package license from binary rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
-    expect(rpm.license).to eq('GPLv3+')
   end
 
   pending 'should return package nevr (name-epoch:version-release) from source rpm (with epoch)' do
@@ -299,16 +320,6 @@ describe 'RPM::File' do
   it 'should return package sourcerpm from binary rpm' do
     rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
     expect(rpm.sourcerpm).to eq('tar-1.26-31.fc20.src.rpm')
-  end
-
-  it 'should return package summary from source rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.summary).to eq('A GNU file archiving program')
-  end
-
-  it 'should return package summary from binary rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.i686.rpm', false)
-    expect(rpm.summary).to eq('A GNU file archiving program')
   end
 
   it 'should return package url from source rpm' do
