@@ -19,6 +19,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'childprocess', '~> 0.5.5'
-  spec.add_development_dependency 'rspec', '~> 3.0.0'
+  spec.add_development_dependency 'rspec', '~> 3.2.0'
   spec.add_development_dependency 'simplecov', '~> 0.9.0'
 end
