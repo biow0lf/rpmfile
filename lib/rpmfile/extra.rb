@@ -13,7 +13,15 @@ module RPM
       #
       # Returns package epoch-version-release as String.
       def evr
-        @evr ||= read_tag('EVR')
+        # TODO: check if rpm support EVR tag and read it
+        # @evr ||= read_tag('EVR')
+        @evr ||= begin
+          if epoch
+            "#{ epoch }:#{ version }-#{ release }"
+          else
+            "#{ version }-#{ release }"
+          end
+        end
       end
 
       # Public: Return package name-epoch:version-release from rpm file.
@@ -28,7 +36,15 @@ module RPM
       #
       # Returns name-epoch:version-release as String.
       def nevr
-        @nevr ||= read_tag('NEVR')
+        # TODO: check if rpm support NEVR and read it
+        # @nevr ||= read_tag('NEVR')
+        @nevr ||= begin
+          if epoch
+            "#{ name }-#{ epoch }:#{ version }-#{ release }"
+          else
+            "#{ name }-#{ version }-#{ release }"
+          end
+        end
       end
 
       # Public: Return package name-epoch:version-release.arch from rpm file.
@@ -46,8 +62,16 @@ module RPM
       #
       # Returns name-epoch:version-release.arch as String or nil if package is source rpm.
       def nevra
-        @nevra ||= read_tag('NEVRA') unless source
-        raise 'FIXME'
+        # TODO: check if rpm support NEVRA tag and read it
+        # @nevra ||= read_tag('NEVRA') unless source
+        return nil if source
+        @nevra ||= begin
+          if epoch
+            "#{ name }-#{ epoch }:#{ version }-#{ release }.#{ arch }"
+          else
+            "#{ name }-#{ version }-#{ release }.#{ arch }"
+          end
+        end
       end
 
       # Public: Return package name-version-release from rpm file.
@@ -59,7 +83,9 @@ module RPM
       #
       # Returns name-version-release as String.
       def nvr
-        @nvr ||= read_tag('NVR')
+        # TODO: check if rpm support NVR tag and read it
+        # @nvr ||= read_tag('NVR')
+        @nvr ||= "#{ name }-#{ version }-#{ release }"
       end
 
       # Public: Return package name-version-release.arch from rpm file.
@@ -74,8 +100,10 @@ module RPM
       #
       # Returns name-version-release.arch as String or nil if source rpm.
       def nvra
-        @nvra ||= read_tag('NVRA') unless source
-        raise 'FIXME'
+        # TODO: check if rpm support NVRA tag and read it
+        # @nvra ||= read_tag('NVRA') unless source
+        return nil if source
+        @nvra ||= "#{ name }-#{ version }-#{ release }.#{ arch }"
       end
 
     end
