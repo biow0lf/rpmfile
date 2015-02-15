@@ -60,11 +60,6 @@ describe 'RPM::File' do
     expect(rpm.filesize).to eq(1_914_673)
   end
 
-  it 'should read any single tag from source rpm' do
-    rpm = RPM::File.new('./spec/data/tar-1.26-31.fc20.src.rpm', true)
-    expect(rpm.read_tag('NAME')).to eq('tar')
-  end
-
   pending 'it should fix empty readed tag with nil'
   pending 'it should fix "(none)" from rpm to empty string'
   pending 'read_array(queryformat)'
